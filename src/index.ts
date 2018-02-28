@@ -1,10 +1,13 @@
-#!/usr/bin/env node
+
 const express = require('express')
 const app = express()
 const path = require('path')
+
 const http = require('http').Server(app)
-const io = require('socket.io')(http)
-const uuidv4 = require('uuid/v4')
+ const io = require('socket.io')(http)
+ const uuidv4 = require('uuid/v4')
+
+
 var port = process.env.PORT || 3000
 
 // Routing
@@ -18,12 +21,8 @@ var devices = []
 
 io.on('connection', function (socket) {
   console.log('a user connected')
-
   var id = uuidv4()
-
-
-
-
+  console.log(id)
   socket.on('disconnect', function () {
     console.log('user disconnected')
   })
