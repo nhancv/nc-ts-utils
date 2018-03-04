@@ -1,10 +1,9 @@
-# SMS Bridge Server
+# Treact Template
 
 ## Tech stack
 ### Server
 - Nodedemon
 - Typescript
-- Socketio
 - ExpressJs
 
 ### Frontend
