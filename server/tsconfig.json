@@ -7,6 +7,7 @@
     "outDir": "./",
     "esModuleInterop": true,
     "strict": true,
+    "jsx": "react",
     "typeRoots": [
       "./node_modules/@types"
     ],

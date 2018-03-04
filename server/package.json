@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "start": "ts-node --inspect=9229 src/index.ts",
-    "dev": "nodemon"
+    "start": "nodemon",
+    "build": "ts-node --inspect=9229 src/index.ts"
   },
   "jest": {
     "transform": {
@@ -24,7 +24,12 @@
   "author": "Nhan Cao <nhancv92@gmail.com> (https://nhancv.github.io)",
   "license": "MIT",
   "dependencies": {
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
     "express": "^4.16.2",
+    "moment": "^2.21.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "socket.io": "^2.0.4",
     "uuid": "^3.2.1"
   },
