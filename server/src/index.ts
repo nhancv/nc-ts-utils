@@ -14,7 +14,7 @@ var port = process.env.PORT || 4000
 
 // Routing
 var frontendDir = path.join(
-  path.dirname(path.dirname(path.dirname(__dirname))),
+  path.dirname(path.dirname(__dirname)),
   'frontend'
 )
 
