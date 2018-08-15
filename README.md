@@ -1,4 +1,4 @@
-# Treact Template
+# TS Template
 
 ## Tech stack
 ### Server
@@ -6,34 +6,14 @@
 - Typescript
 - ExpressJs
 
-### Frontend
-- React
-- Typescript
-
-
 ## Dev
-### Server
 ```
-cd server
 npm start
 ```
+Access: http://localhost:7090/
 
-### Frontend
-```
-cd frontend
-npm start
-```
 
 ## Build
-### Server
 ```
-cd server
 npm run build
 ```
-
-### Frontend
-```
-cd frontend
-npm run build
-```
-
