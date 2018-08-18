@@ -3,9 +3,10 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 
+const config = require('./env.js').get(process.env.NODE_ENV);
 const app = express();
 const log = console.log;
-var port = process.env.PORT || 7090;
+const port = process.env.PORT || 7090;
 
 // Body parser: https://github.com/expressjs/body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,3 +23,5 @@ app.get('/', function(req, res) {
 app.listen(port, function() {
   log('Server listening at port %d', port);
 });
+
+log(config);
