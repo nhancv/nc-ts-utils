@@ -2,7 +2,7 @@
 
 ## Tech stack
 ### Server
-- Nodedemon
+- Nodemon
 - Typescript
 - ExpressJs
 
@@ -16,4 +16,5 @@ Access: http://localhost:7090/
 ## Build
 ```
 npm run build
+npm run production
 ```
