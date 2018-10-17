@@ -49,21 +49,21 @@ app.use(compression());
  * API calls, use Postman for testing
  * This block should declare before default route
  */
-app.get('/api/about', function (req, res) {
+app.get('/api/about', (req, res) => {
   res.json({'about': 'https://nhancv.github.io'});
 });
 
 /**
  * Default routing
  */
-app.get('*', function (req, res) {
+app.get('*', (req, res) => {
   res.redirect('/api/about')
 });
 
 /**
  * Start listen
  */
-app.listen(port, function() {
+app.listen(port, () => {
   log('Server listening at port %d', port);
 });
 
