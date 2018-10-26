@@ -40,10 +40,15 @@ var body_parser_1 = __importDefault(require("body-parser"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var compression_1 = __importDefault(require("compression"));
 var ENV = __importStar(require("./env"));
+var Controller = __importStar(require("./controller"));
 var config = ENV.get();
 var app = express_1.default();
 var log = console.log;
 var port = process.env.PORT || 7090;
+//////////////////////////////////////////////////////////////////
+/**
+ * Config app
+ */
 // Body parser: https://github.com/expressjs/body-parser
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
@@ -53,13 +58,18 @@ app.use(cors_1.default());
 app.use(cookie_parser_1.default());
 // Use gzip compression
 app.use(compression_1.default());
+//////////////////////////////////////////////////////////////////
+/**
+ * Declare controller
+ */
+var aboutController = new Controller.About();
 /**
  * API calls, use Postman for testing
  * This block should declare before default route
  */
-app.get('/api/about', function (req, res) {
-    res.json({ 'about': 'https://nhancv.github.io' });
-});
+//About module
+app.get('/api/about', aboutController.getAbout);
+//////////////////////////////////////////////////////////////////
 /**
  * Default routing
  */
@@ -70,7 +80,6 @@ app.get('*', function (req, res) {
  * Start listen
  */
 app.listen(port, function () {
-    log('Server listening at port %d', port);
+    log('Server %s listening at port %d', config.env, port);
 });
-log(config);
 //# sourceMappingURL=index.js.map
