@@ -28,6 +28,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
+import morgan from 'morgan';
 import * as ENV from "./env";
 import * as Controller from "./controller";
 
@@ -49,7 +50,9 @@ app.use(cors());
 app.use(cookieParser());
 // Use gzip compression
 app.use(compression());
-
+// Config http logging with morgan
+const morganFormat = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] - :response-time ms ":referrer" ":user-agent"';
+app.use(morgan(morganFormat));
 //////////////////////////////////////////////////////////////////
 /**
  * Declare controller

@@ -39,6 +39,7 @@ var cors_1 = __importDefault(require("cors"));
 var body_parser_1 = __importDefault(require("body-parser"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var compression_1 = __importDefault(require("compression"));
+var morgan_1 = __importDefault(require("morgan"));
 var ENV = __importStar(require("./env"));
 var Controller = __importStar(require("./controller"));
 var config = ENV.get();
@@ -58,6 +59,9 @@ app.use(cors_1.default());
 app.use(cookie_parser_1.default());
 // Use gzip compression
 app.use(compression_1.default());
+// Config http logging with morgan
+var morganFormat = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] - :response-time ms ":referrer" ":user-agent"';
+app.use(morgan_1.default(morganFormat));
 //////////////////////////////////////////////////////////////////
 /**
  * Declare controller
