@@ -35,7 +35,7 @@ import * as Controller from "./controller";
 const config = ENV.get();
 const app = express();
 const log = console.log;
-const port = process.env.PORT || 7090;
+const port = parseInt(process.env.PORT || '7090');
 
 //////////////////////////////////////////////////////////////////
 /**
@@ -76,9 +76,9 @@ app.get('*', (req, res) => {
 });
 
 /**
- * Start listen
+ * Start listen only on localhost domain
  */
-app.listen(port, () => {
+app.listen(port, 'localhost', () => {
   log('Server %s listening at port %d', config.env, port);
 });
 
