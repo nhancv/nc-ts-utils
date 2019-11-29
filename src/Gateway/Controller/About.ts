@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018 Nhan Cao
+ * Copyright (c) 2019 Nhan Cao
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,44 +20,23 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
-import RilNode from "./Base/RilNode";
-import Business from "./Business";
-import Gateway from "./Gateway";
 
-class App extends RilNode {
+import {Request, Response} from 'express'
+import IResponse from "./IResponse";
 
-  async init(): Promise<any> {
-    // Init dotenv
-    const result = require('dotenv').config({path: '.env'});
-    if (result.error) console.error(result.error.message);
-    // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-    process.on('unhandledRejection', function (err) {
-      console.error(err);
-    });
-  }
-
-  async startBusiness(): Promise<any> {
-    await new Business().start();
-  }
-
-  async startGateway(): Promise<any> {
-    await new Gateway().start();
-  }
+export interface IAbout {
+  getAbout(req: Request, res: Response): Promise<any>
 }
 
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(async () => {
-  try {
-    const app = new App();
-    await app.init();
-    // await app.startBusiness();
-    await app.startGateway();
-  } catch (e) {
-    console.error(e.message);
+export class About implements IAbout {
+  getAbout = async (req: Request, res: Response): Promise<any> => {
+    let response: IResponse = {
+      code: 200,
+      body: {
+        about: 'https://nhancv.github.io'
+      }
+    };
+    return res.status(response.code).json(response);
   }
-})();
-
+}

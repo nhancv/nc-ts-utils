@@ -22,42 +22,34 @@
  * SOFTWARE.
  *
  */
-import RilNode from "./Base/RilNode";
-import Business from "./Business";
-import Gateway from "./Gateway";
 
-class App extends RilNode {
+import RilModule from "../Base/RilModule";
+import TelegramBot from "./Provider/TelegramBot";
+import {MongoMigrate} from "./Provider/MongoDB/MongoMigrate";
+import {MongoProvider} from "./Provider/MongoDB/MongoProvider";
+import EmailNotifier from "./Provider/EmailNotifier";
+import CronJob from "./Provider/CronJob";
 
-  async init(): Promise<any> {
-    // Init dotenv
-    const result = require('dotenv').config({path: '.env'});
-    if (result.error) console.error(result.error.message);
-    // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-    process.on('unhandledRejection', function (err) {
-      console.error(err);
-    });
+export default class Business extends RilModule {
+  async start(): Promise<any> {
+    // @nhancv 9/16/19: Connect db
+    await MongoProvider.instance.connect();
+    // @nhancv 9/16/19: Check migrate
+    await new MongoMigrate().migrate();
+    // @nhancv 11/22/19: Start bot
+    const bot = new TelegramBot();
+    await bot.create();
+    await bot.start();
+    // @nhancv 11/23/19: Start email listener
+    const emailNotifier = new EmailNotifier();
+    emailNotifier.setBot(bot);
+    await emailNotifier.start();
+    // @nhancv 11/27/19: Run cron job
+    const cronJob = new CronJob();
+    cronJob.setBot(bot);
+    await cronJob.execute();
+
+
   }
 
-  async startBusiness(): Promise<any> {
-    await new Business().start();
-  }
-
-  async startGateway(): Promise<any> {
-    await new Gateway().start();
-  }
 }
-
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(async () => {
-  try {
-    const app = new App();
-    await app.init();
-    // await app.startBusiness();
-    await app.startGateway();
-  } catch (e) {
-    console.error(e.message);
-  }
-})();
-

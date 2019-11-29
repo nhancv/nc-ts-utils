@@ -22,26 +22,50 @@
  * SOFTWARE.
  *
  */
+import TelegramBot from "./TelegramBot";
 
-import {Request, Response} from 'express'
+const fs = require('fs');
+const readline = require('readline');
 
-export interface IResponse {
-  code: number,
-  body: object
-}
+export default class CronJob {
 
-export interface IAbout {
-  getAbout(req: Request, res: Response): Promise<any>
-}
+  bot?: TelegramBot;
 
-export class About implements IAbout {
-  getAbout = async (req: Request, res: Response): Promise<any> => {
-    let response: IResponse = {
-      code: 200,
-      body: {
-        about: 'https://nhancv.github.io'
-      }
-    };
-    return res.status(response.code).json(response);
+  setBot(bot?: TelegramBot) {
+    this.bot = bot;
+  }
+
+  async execute() {
+    // @nhancv 10/16/19: Config cron
+    // Seconds: 0-59
+    // Minutes: 0-59
+    // Hours: 0-23
+    // Day of Month: 1-31
+    // Months: 0-11 (Jan-Dec)
+    // Day of Week: 0-6 (Sun-Sat)
+    // '* * * * * *' => run every second
+    // '* * * * *' => run every minute
+    const CronJob = require('cron').CronJob;
+    const job = new CronJob({
+      // cronTime: '00 00 00 * * *',
+      cronTime: '* * * * *',
+      onTick: async () => {
+        /*
+         * Runs every minute.
+         */
+        try {
+          //@nhancv 11/29/19
+          //TODO: Do something here
+          //...
+          console.log('CronJob checking');
+        } catch (e) {
+          console.error(e);
+        }
+      },
+      start: false,
+      timeZone: 'Asia/Ho_Chi_Minh'
+    });
+    job.start();
   }
 }
+

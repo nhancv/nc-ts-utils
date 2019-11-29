@@ -1,3 +1,4 @@
+"use strict";
 /*
  * MIT License
  *
@@ -22,42 +23,28 @@
  * SOFTWARE.
  *
  */
-import RilNode from "./Base/RilNode";
-import Business from "./Business";
-import Gateway from "./Gateway";
-
-class App extends RilNode {
-
-  async init(): Promise<any> {
-    // Init dotenv
-    const result = require('dotenv').config({path: '.env'});
-    if (result.error) console.error(result.error.message);
-    // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-    process.on('unhandledRejection', function (err) {
-      console.error(err);
-    });
-  }
-
-  async startBusiness(): Promise<any> {
-    await new Business().start();
-  }
-
-  async startGateway(): Promise<any> {
-    await new Gateway().start();
-  }
-}
-
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(async () => {
-  try {
-    const app = new App();
-    await app.init();
-    // await app.startBusiness();
-    await app.startGateway();
-  } catch (e) {
-    console.error(e.message);
-  }
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
 })();
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var System_1 = require("../../../Model/System");
+var BaseRepo_1 = require("./BaseRepo");
+var SystemRepo = /** @class */ (function (_super) {
+    __extends(SystemRepo, _super);
+    function SystemRepo() {
+        return _super.call(this, System_1.System_TableName) || this;
+    }
+    return SystemRepo;
+}(BaseRepo_1.BaseRepo));
+exports.SystemRepo = SystemRepo;
+//# sourceMappingURL=SystemRepo.js.map

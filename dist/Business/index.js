@@ -1,4 +1,28 @@
 "use strict";
+/*
+ * MIT License
+ *
+ * Copyright (c) 2018 Nhan Cao
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -52,104 +76,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/*
- * MIT License
- *
- * Copyright (c) 2018 Nhan Cao
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- */
-var RilNode_1 = __importDefault(require("./Base/RilNode"));
-var Business_1 = __importDefault(require("./Business"));
-var Gateway_1 = __importDefault(require("./Gateway"));
-var App = /** @class */ (function (_super) {
-    __extends(App, _super);
-    function App() {
+var RilModule_1 = __importDefault(require("../Base/RilModule"));
+var TelegramBot_1 = __importDefault(require("./Provider/TelegramBot"));
+var MongoMigrate_1 = require("./Provider/MongoDB/MongoMigrate");
+var MongoProvider_1 = require("./Provider/MongoDB/MongoProvider");
+var EmailNotifier_1 = __importDefault(require("./Provider/EmailNotifier"));
+var CronJob_1 = __importDefault(require("./Provider/CronJob"));
+var Business = /** @class */ (function (_super) {
+    __extends(Business, _super);
+    function Business() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    App.prototype.init = function () {
+    Business.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-                result = require('dotenv').config({ path: '.env' });
-                if (result.error)
-                    console.error(result.error.message);
-                // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-                process.on('unhandledRejection', function (err) {
-                    console.error(err);
-                });
-                return [2 /*return*/];
-            });
-        });
-    };
-    App.prototype.startBusiness = function () {
-        return __awaiter(this, void 0, void 0, function () {
+            var bot, emailNotifier, cronJob;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, new Business_1.default().start()];
+                    case 0: 
+                    // @nhancv 9/16/19: Connect db
+                    return [4 /*yield*/, MongoProvider_1.MongoProvider.instance.connect()];
                     case 1:
+                        // @nhancv 9/16/19: Connect db
+                        _a.sent();
+                        // @nhancv 9/16/19: Check migrate
+                        return [4 /*yield*/, new MongoMigrate_1.MongoMigrate().migrate()];
+                    case 2:
+                        // @nhancv 9/16/19: Check migrate
+                        _a.sent();
+                        bot = new TelegramBot_1.default();
+                        return [4 /*yield*/, bot.create()];
+                    case 3:
+                        _a.sent();
+                        return [4 /*yield*/, bot.start()];
+                    case 4:
+                        _a.sent();
+                        emailNotifier = new EmailNotifier_1.default();
+                        emailNotifier.setBot(bot);
+                        return [4 /*yield*/, emailNotifier.start()];
+                    case 5:
+                        _a.sent();
+                        cronJob = new CronJob_1.default();
+                        cronJob.setBot(bot);
+                        return [4 /*yield*/, cronJob.execute()];
+                    case 6:
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    App.prototype.startGateway = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, new Gateway_1.default().start()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return App;
-}(RilNode_1.default));
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var app, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                app = new App();
-                return [4 /*yield*/, app.init()];
-            case 1:
-                _a.sent();
-                // await app.startBusiness();
-                return [4 /*yield*/, app.startGateway()];
-            case 2:
-                // await app.startBusiness();
-                _a.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                e_1 = _a.sent();
-                console.error(e_1.message);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
-        }
-    });
-}); })();
+    return Business;
+}(RilModule_1.default));
+exports.default = Business;
 //# sourceMappingURL=index.js.map

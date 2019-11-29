@@ -1,3 +1,4 @@
+"use strict";
 /*
  * MIT License
  *
@@ -22,42 +23,16 @@
  * SOFTWARE.
  *
  */
-import RilNode from "./Base/RilNode";
-import Business from "./Business";
-import Gateway from "./Gateway";
-
-class App extends RilNode {
-
-  async init(): Promise<any> {
-    // Init dotenv
-    const result = require('dotenv').config({path: '.env'});
-    if (result.error) console.error(result.error.message);
-    // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-    process.on('unhandledRejection', function (err) {
-      console.error(err);
-    });
-  }
-
-  async startBusiness(): Promise<any> {
-    await new Business().start();
-  }
-
-  async startGateway(): Promise<any> {
-    await new Gateway().start();
-  }
-}
-
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(async () => {
-  try {
-    const app = new App();
-    await app.init();
-    // await app.startBusiness();
-    await app.startGateway();
-  } catch (e) {
-    console.error(e.message);
-  }
-})();
-
+Object.defineProperty(exports, "__esModule", { value: true });
+var MongoConnect = /** @class */ (function () {
+    function MongoConnect() {
+        this.protocol = process.env.DB_PROTOCOL ? process.env.DB_PROTOCOL : 'mongodb';
+        this.host = process.env.DB_HOST ? process.env.DB_HOST : '';
+        this.username = process.env.DB_USER ? process.env.DB_USER : '';
+        this.password = process.env.DB_PASS ? process.env.DB_PASS : '';
+        this.dbname = process.env.DB_NAME ? process.env.DB_NAME : '';
+    }
+    return MongoConnect;
+}());
+exports.MongoConnect = MongoConnect;
+//# sourceMappingURL=MongoConnect.js.map

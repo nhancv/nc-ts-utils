@@ -22,42 +22,23 @@
  * SOFTWARE.
  *
  */
-import RilNode from "./Base/RilNode";
-import Business from "./Business";
-import Gateway from "./Gateway";
 
-class App extends RilNode {
 
-  async init(): Promise<any> {
-    // Init dotenv
-    const result = require('dotenv').config({path: '.env'});
-    if (result.error) console.error(result.error.message);
-    // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-    process.on('unhandledRejection', function (err) {
-      console.error(err);
-    });
+import Base from "./Base";
+import {System, System_TableName} from "../../../Model/System";
+
+export class InitSystem implements Base {
+  arrayData: System[] = [
+    {
+      dbVersion: 0,
+    }
+  ];
+
+  getTableName() {
+    return System_TableName;
   }
 
-  async startBusiness(): Promise<any> {
-    await new Business().start();
-  }
-
-  async startGateway(): Promise<any> {
-    await new Gateway().start();
+  getTableData() {
+    return this.arrayData;
   }
 }
-
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(async () => {
-  try {
-    const app = new App();
-    await app.init();
-    // await app.startBusiness();
-    await app.startGateway();
-  } catch (e) {
-    console.error(e.message);
-  }
-})();
-

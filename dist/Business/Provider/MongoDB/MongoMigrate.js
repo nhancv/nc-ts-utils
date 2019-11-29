@@ -24,10 +24,11 @@
  *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -59,23 +60,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var About = /** @class */ (function () {
-    function About() {
-        var _this = this;
-        this.getAbout = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var response;
-            return __generator(this, function (_a) {
-                response = {
-                    code: 200,
-                    body: {
-                        about: 'https://nhancv.github.io'
-                    }
-                };
-                return [2 /*return*/, res.status(response.code).json(response)];
-            });
-        }); };
+var Octopus_1 = require("./InitData/Octopus");
+var SystemRepo_1 = require("./Orm/SystemRepo");
+var InitSystem_1 = require("./InitData/InitSystem");
+var logger = console;
+// Run on main index.ts
+var MongoMigrate = /** @class */ (function () {
+    function MongoMigrate() {
     }
-    return About;
+    MongoMigrate.prototype.migrate = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var octopus, systemConfigs, config, dbVersion, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 7, , 8]);
+                        octopus = new Octopus_1.Octopus();
+                        return [4 /*yield*/, new SystemRepo_1.SystemRepo().getAll()];
+                    case 1:
+                        systemConfigs = _a.sent();
+                        config = systemConfigs[0];
+                        if (!(config == undefined)) return [3 /*break*/, 4];
+                        // @nhancv 9/22/19: Re-init system config
+                        return [4 /*yield*/, octopus.initData(new InitSystem_1.InitSystem())];
+                    case 2:
+                        // @nhancv 9/22/19: Re-init system config
+                        _a.sent();
+                        return [4 /*yield*/, new SystemRepo_1.SystemRepo().getAll()];
+                    case 3:
+                        systemConfigs = _a.sent();
+                        config = systemConfigs[0];
+                        _a.label = 4;
+                    case 4:
+                        dbVersion = config ? config.hasOwnProperty("dbVersion") ? config.dbVersion : 0 : 0;
+                        logger.info("Current database version: " + dbVersion);
+                        if (!(dbVersion == 0)) return [3 /*break*/, 6];
+                        logger.info("Migrating from version " + dbVersion);
+                        //@nhancv 11/29/19
+                        //TODO: Do something here for first version like initial tables
+                        //...
+                        // Increase dbVersion to 1
+                        config.dbVersion = 1;
+                        dbVersion = config.dbVersion;
+                        // Update new config object
+                        return [4 /*yield*/, new SystemRepo_1.SystemRepo().update({ _id: config._id }, config)];
+                    case 5:
+                        // Update new config object
+                        _a.sent();
+                        logger.info("Migrate to version " + dbVersion + " completely");
+                        _a.label = 6;
+                    case 6: return [3 /*break*/, 8];
+                    case 7:
+                        e_1 = _a.sent();
+                        logger.error(e_1);
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return MongoMigrate;
 }());
-exports.About = About;
-//# sourceMappingURL=About.js.map
+exports.MongoMigrate = MongoMigrate;
+//# sourceMappingURL=MongoMigrate.js.map

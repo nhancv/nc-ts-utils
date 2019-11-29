@@ -1,3 +1,4 @@
+"use strict";
 /*
  * MIT License
  *
@@ -22,42 +23,18 @@
  * SOFTWARE.
  *
  */
-import RilNode from "./Base/RilNode";
-import Business from "./Business";
-import Gateway from "./Gateway";
-
-class App extends RilNode {
-
-  async init(): Promise<any> {
-    // Init dotenv
-    const result = require('dotenv').config({path: '.env'});
-    if (result.error) console.error(result.error.message);
-    // @nhancv 2019-09-06: Catch all unhandled Promise rejections
-    process.on('unhandledRejection', function (err) {
-      console.error(err);
+Object.defineProperty(exports, "__esModule", { value: true });
+var MongoStore = /** @class */ (function () {
+    function MongoStore() {
+    }
+    Object.defineProperty(MongoStore, "instance", {
+        get: function () {
+            return this._instance || (this._instance = new this());
+        },
+        enumerable: true,
+        configurable: true
     });
-  }
-
-  async startBusiness(): Promise<any> {
-    await new Business().start();
-  }
-
-  async startGateway(): Promise<any> {
-    await new Gateway().start();
-  }
-}
-
-////////////////////////////////////////////////////////
-/////RUN APP////////////////////////////////////////////
-////////////////////////////////////////////////////////
-(async () => {
-  try {
-    const app = new App();
-    await app.init();
-    // await app.startBusiness();
-    await app.startGateway();
-  } catch (e) {
-    console.error(e.message);
-  }
-})();
-
+    return MongoStore;
+}());
+exports.default = MongoStore;
+//# sourceMappingURL=MongoStore.js.map
