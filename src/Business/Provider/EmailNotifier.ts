@@ -28,14 +28,6 @@ import TelegramBot from "./TelegramBot";
 
 const notifier = require('mail-notifier');
 
-export interface PaymentBody {
-  bankProof: string,
-  amount: number,
-  paymentTime: string,
-  userId: string,
-  paymentCode: string
-}
-
 export default class EmailNotifier extends RilModule {
 
   bot?: TelegramBot;
