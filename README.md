@@ -25,6 +25,12 @@ npm start
 ## Build release for prod and staging
 ```
 npm run build
+
+# Note for windows need install win-node-env first
+npm install -g win-node-env
+
+# Run production code
+npm run production
 ```
 
 ## Deploy to integration [HEROKU]
@@ -39,4 +45,4 @@ git push heroku master
 
 Test at: <app name>.herokuapp.com
 Log view: heroku logs -t
-``` 
+```
