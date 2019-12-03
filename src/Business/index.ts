@@ -24,7 +24,7 @@
  */
 
 import RilModule from "../Base/RilModule";
-import TelegramBot from "./Provider/TelegramBot";
+import TemplateBot from "./Provider/TelegramBot/TemplateBot";
 import {MongoMigrate} from "./Provider/MongoDB/MongoMigrate";
 import {MongoProvider} from "./Provider/MongoDB/MongoProvider";
 import EmailNotifier from "./Provider/EmailNotifier";
@@ -37,7 +37,7 @@ export default class Business extends RilModule {
     // @nhancv 9/16/19: Check migrate
     await new MongoMigrate().migrate();
     // @nhancv 11/22/19: Start bot
-    const bot = new TelegramBot();
+    const bot = new TemplateBot();
     await bot.create();
     await bot.start();
     // @nhancv 11/23/19: Start email listener

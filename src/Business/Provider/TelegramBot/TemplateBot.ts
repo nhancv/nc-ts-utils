@@ -24,14 +24,12 @@
  */
 
 import Telegraf from 'telegraf'
-import RilModule from "../../Base/RilModule";
+import RilModule from "../../../Base/RilModule";
+import BotCommand from "./BotCommand";
+import BotBase from "./BotBase";
+import ChatIdCommand from "./ChatIdCommand";
 
-const COMMAND = {
-  CHAT_ID: {text: "Get chatId", id: "chat_id"},
-};
-const usdtValidAmount: string[] = ['5', '10', '20', '50', '100'];
-
-export default class TelegramBot extends RilModule {
+export default class TemplateBot extends RilModule implements BotBase {
 
   bot: any;
   botToken: any = process.env.BOT_TOKEN;
@@ -39,9 +37,13 @@ export default class TelegramBot extends RilModule {
   botAdminChannelId: any = process.env.BOT_ADMIN_CHANNEL_ID;
   command: any = {};
   commandData: any = {};
+  //commands
+  chatIdCommand: ChatIdCommand;
 
   constructor() {
     super();
+    this.chatIdCommand = new ChatIdCommand('chat_id', 'Get chatId', this);
+
   }
 
   async create() {
@@ -58,19 +60,13 @@ export default class TelegramBot extends RilModule {
     this.bot.start((ctx) => ctx.reply(`Xin chào ${ctx.message.from.first_name} ${ctx.message.from.last_name}\n Gõ /help để được hướng dẫn chi tiết nhé.`));
     this.bot.help((ctx) => {
       ctx.reply(
-        `/${COMMAND.CHAT_ID.id} - ${COMMAND.CHAT_ID.text}`,
+        this.getCommandHelp(this.chatIdCommand),
         {reply_markup: {remove_keyboard: true}}
       );
       this.resetCommand(String(ctx.message.from.id));
     });
-    // Admin only: Get chat id
-    this.bot.command(COMMAND.CHAT_ID.id, async (ctx) => {
-      const fromId = String(ctx.message.from.id);
-      if (!this.isAdmin(fromId)) return;
-      this.resetCommand(fromId);
-      let chatId = ctx.message.chat.id;
-      this.sendMessageToAdmin(chatId);
-    });
+
+    this.bot.command(this.chatIdCommand.id, this.chatIdCommand.commandCallback);
 
     // @nhancv 2019-08-31: reset command
     this.bot.on('text', async (ctx) => {
@@ -103,7 +99,7 @@ export default class TelegramBot extends RilModule {
     this.bot = null;
   }
 
-  private resetCommand(fromId) {
+  resetCommand(fromId) {
     this.command[fromId] = null;
     this.commandData[fromId] = null;
   }
@@ -131,4 +127,7 @@ export default class TelegramBot extends RilModule {
     return id == this.botAdminId;
   };
 
+  getCommandHelp(command: BotCommand) {
+    return `/${command.id} - ${command.text}`;
+  }
 }

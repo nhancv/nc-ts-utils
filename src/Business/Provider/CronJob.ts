@@ -22,16 +22,16 @@
  * SOFTWARE.
  *
  */
-import TelegramBot from "./TelegramBot";
+import TemplateBot from "./TelegramBot/TemplateBot";
 
 const fs = require('fs');
 const readline = require('readline');
 
 export default class CronJob {
 
-  bot?: TelegramBot;
+  bot?: TemplateBot;
 
-  setBot(bot?: TelegramBot) {
+  setBot(bot?: TemplateBot) {
     this.bot = bot;
   }
 

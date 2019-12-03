@@ -24,15 +24,15 @@
  */
 
 import RilModule from "../../Base/RilModule";
-import TelegramBot from "./TelegramBot";
+import TemplateBot from "./TelegramBot/TemplateBot";
 
 const notifier = require('mail-notifier');
 
 export default class EmailNotifier extends RilModule {
 
-  bot?: TelegramBot;
+  bot?: TemplateBot;
 
-  setBot(bot?: TelegramBot) {
+  setBot(bot?: TemplateBot) {
     this.bot = bot;
   }
 

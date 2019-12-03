@@ -77,7 +77,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var RilModule_1 = __importDefault(require("../Base/RilModule"));
-var TelegramBot_1 = __importDefault(require("./Provider/TelegramBot"));
+var TemplateBot_1 = __importDefault(require("./Provider/TelegramBot/TemplateBot"));
 var MongoMigrate_1 = require("./Provider/MongoDB/MongoMigrate");
 var MongoProvider_1 = require("./Provider/MongoDB/MongoProvider");
 var EmailNotifier_1 = __importDefault(require("./Provider/EmailNotifier"));
@@ -103,7 +103,7 @@ var Business = /** @class */ (function (_super) {
                     case 2:
                         // @nhancv 9/16/19: Check migrate
                         _a.sent();
-                        bot = new TelegramBot_1.default();
+                        bot = new TemplateBot_1.default();
                         return [4 /*yield*/, bot.create()];
                     case 3:
                         _a.sent();

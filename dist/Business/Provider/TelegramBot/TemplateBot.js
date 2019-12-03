@@ -77,14 +77,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var telegraf_1 = __importDefault(require("telegraf"));
-var RilModule_1 = __importDefault(require("../../Base/RilModule"));
-var COMMAND = {
-    CHAT_ID: { text: "Get chatId", id: "chat_id" },
-};
-var usdtValidAmount = ['5', '10', '20', '50', '100'];
-var TelegramBot = /** @class */ (function (_super) {
-    __extends(TelegramBot, _super);
-    function TelegramBot() {
+var RilModule_1 = __importDefault(require("../../../Base/RilModule"));
+var ChatIdCommand_1 = __importDefault(require("./ChatIdCommand"));
+var TemplateBot = /** @class */ (function (_super) {
+    __extends(TemplateBot, _super);
+    function TemplateBot() {
         var _this = _super.call(this) || this;
         _this.botToken = process.env.BOT_TOKEN;
         _this.botAdminId = process.env.BOT_ADMIN_ID;
@@ -110,9 +107,10 @@ var TelegramBot = /** @class */ (function (_super) {
             // @nhancv 9/14/19: Need to parse fromId to String in indexOf case
             return id == _this.botAdminId;
         };
+        _this.chatIdCommand = new ChatIdCommand_1.default('chat_id', 'Get chatId', _this);
         return _this;
     }
-    TelegramBot.prototype.create = function () {
+    TemplateBot.prototype.create = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -128,22 +126,10 @@ var TelegramBot = /** @class */ (function (_super) {
                 });
                 this.bot.start(function (ctx) { return ctx.reply("Xin ch\u00E0o " + ctx.message.from.first_name + " " + ctx.message.from.last_name + "\n G\u00F5 /help \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u01B0\u1EDBng d\u1EABn chi ti\u1EBFt nh\u00E9."); });
                 this.bot.help(function (ctx) {
-                    ctx.reply("/" + COMMAND.CHAT_ID.id + " - " + COMMAND.CHAT_ID.text, { reply_markup: { remove_keyboard: true } });
+                    ctx.reply(_this.getCommandHelp(_this.chatIdCommand), { reply_markup: { remove_keyboard: true } });
                     _this.resetCommand(String(ctx.message.from.id));
                 });
-                // Admin only: Get chat id
-                this.bot.command(COMMAND.CHAT_ID.id, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
-                    var fromId, chatId;
-                    return __generator(this, function (_a) {
-                        fromId = String(ctx.message.from.id);
-                        if (!this.isAdmin(fromId))
-                            return [2 /*return*/];
-                        this.resetCommand(fromId);
-                        chatId = ctx.message.chat.id;
-                        this.sendMessageToAdmin(chatId);
-                        return [2 /*return*/];
-                    });
-                }); });
+                this.bot.command(this.chatIdCommand.id, this.chatIdCommand.commandCallback);
                 // @nhancv 2019-08-31: reset command
                 this.bot.on('text', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
                     var fromId;
@@ -166,7 +152,7 @@ var TelegramBot = /** @class */ (function (_super) {
             });
         });
     };
-    TelegramBot.prototype.start = function () {
+    TemplateBot.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -181,7 +167,7 @@ var TelegramBot = /** @class */ (function (_super) {
             });
         });
     };
-    TelegramBot.prototype.stop = function () {
+    TemplateBot.prototype.stop = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 if (this.bot) {
@@ -191,7 +177,7 @@ var TelegramBot = /** @class */ (function (_super) {
             });
         });
     };
-    TelegramBot.prototype.destroy = function () {
+    TemplateBot.prototype.destroy = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.bot = null;
@@ -199,11 +185,14 @@ var TelegramBot = /** @class */ (function (_super) {
             });
         });
     };
-    TelegramBot.prototype.resetCommand = function (fromId) {
+    TemplateBot.prototype.resetCommand = function (fromId) {
         this.command[fromId] = null;
         this.commandData[fromId] = null;
     };
-    return TelegramBot;
+    TemplateBot.prototype.getCommandHelp = function (command) {
+        return "/" + command.id + " - " + command.text;
+    };
+    return TemplateBot;
 }(RilModule_1.default));
-exports.default = TelegramBot;
-//# sourceMappingURL=TelegramBot.js.map
+exports.default = TemplateBot;
+//# sourceMappingURL=TemplateBot.js.map
