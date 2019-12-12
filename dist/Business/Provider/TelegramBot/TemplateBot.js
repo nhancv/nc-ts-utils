@@ -78,7 +78,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var telegraf_1 = __importDefault(require("telegraf"));
 var RilModule_1 = __importDefault(require("../../../Base/RilModule"));
-var ChatIdCommand_1 = __importDefault(require("./ChatIdCommand"));
+var ChatIdCommand_1 = __importDefault(require("./Command/ChatIdCommand"));
 var TemplateBot = /** @class */ (function (_super) {
     __extends(TemplateBot, _super);
     function TemplateBot() {

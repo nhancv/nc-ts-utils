@@ -25,9 +25,9 @@
 
 import Telegraf from 'telegraf'
 import RilModule from "../../../Base/RilModule";
-import BotCommand from "./BotCommand";
+import BotCommand from "./Command/BotCommand";
 import BotBase from "./BotBase";
-import ChatIdCommand from "./ChatIdCommand";
+import ChatIdCommand from "./Command/ChatIdCommand";
 
 export default class TemplateBot extends RilModule implements BotBase {
 
