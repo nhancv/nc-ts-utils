@@ -25,6 +25,7 @@
 import RilNode from "./Base/RilNode";
 import Business from "./Business";
 import Gateway from "./Gateway";
+import Log from "./Base/Log";
 
 class App extends RilNode {
 
@@ -54,6 +55,7 @@ class App extends RilNode {
   try {
     const app = new App();
     await app.init();
+    Log.info('Initialized.');
     // await app.startBusiness();
     await app.startGateway();
   } catch (e) {

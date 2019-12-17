@@ -79,6 +79,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var RilNode_1 = __importDefault(require("./Base/RilNode"));
 var Business_1 = __importDefault(require("./Business"));
 var Gateway_1 = __importDefault(require("./Gateway"));
+var Log_1 = __importDefault(require("./Base/Log"));
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
@@ -138,6 +139,7 @@ var App = /** @class */ (function (_super) {
                 return [4 /*yield*/, app.init()];
             case 1:
                 _a.sent();
+                Log_1.default.info('Initialized.');
                 // await app.startBusiness();
                 return [4 /*yield*/, app.startGateway()];
             case 2:
