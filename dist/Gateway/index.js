@@ -83,7 +83,7 @@ var Gateway = /** @class */ (function (_super) {
     }
     Gateway.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var log, app, port, morganFormat, aboutController;
+            var log, app, port, morganFormat, aboutController, hostname;
             var _this = this;
             return __generator(this, function (_a) {
                 log = console.log;
@@ -131,12 +131,15 @@ var Gateway = /** @class */ (function (_super) {
                     };
                     return res.status(response.code).json(response);
                 });
-                /**
-                 * Start listen only on localhost domain
-                 */
-                app.listen(port, 'localhost', function () {
-                    log('Server %s listening at port %d', process.env.NODE_ENV, port);
-                });
+                hostname = process.env.NODE_ENV == 'dev' ? 'localhost' : 'localhost';
+                try {
+                    app.listen(port, hostname, function () {
+                        log('Server %s listening at port %d', process.env.NODE_ENV, port);
+                    });
+                }
+                catch (e) {
+                    console.error(e);
+                }
                 return [2 /*return*/];
             });
         });
