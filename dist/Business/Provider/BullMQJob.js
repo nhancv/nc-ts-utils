@@ -23,19 +23,6 @@
  * SOFTWARE.
  *
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -72,68 +59,71 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var RilModule_1 = __importDefault(require("../Base/RilModule"));
-var TemplateBot_1 = __importDefault(require("./Provider/TelegramBot/TemplateBot"));
-var MongoMigrate_1 = require("./Provider/MongoDB/MongoMigrate");
-var MongoProvider_1 = require("./Provider/MongoDB/MongoProvider");
-var EmailNotifier_1 = __importDefault(require("./Provider/EmailNotifier"));
-var CronJob_1 = __importDefault(require("./Provider/CronJob"));
-var BullMQJob_1 = __importDefault(require("./Provider/BullMQJob"));
-var Business = /** @class */ (function (_super) {
-    __extends(Business, _super);
-    function Business() {
-        return _super !== null && _super.apply(this, arguments) || this;
+/**
+ * For BullMQ
+ * Docs: https://docs.bullmq.io
+ * Required: Redis installed first
+ */
+var bullmq_1 = require("bullmq");
+var BullMQJob = /** @class */ (function () {
+    function BullMQJob() {
     }
-    Business.prototype.start = function () {
+    BullMQJob.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var bot, emailNotifier, cronJob;
+            function addJobs() {
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, myQueue.add('myJobName1', { foo: 'bar' })];
+                            case 1:
+                                _a.sent();
+                                return [4 /*yield*/, myQueue.add('myJobName2', { qux: 'baz' })];
+                            case 2:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            }
+            var myQueue, worker, queueEvents;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: 
-                    // @nhancv 9/16/19: Connect db
-                    return [4 /*yield*/, MongoProvider_1.MongoProvider.instance.connect()];
+                    case 0:
+                        myQueue = new bullmq_1.Queue('fistQueue');
+                        worker = new bullmq_1.Worker('fistQueue', function (job) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                // Will print { foo: 'bar'} for the first job
+                                // and { qux: 'baz' } for the second.
+                                console.log(job.data);
+                                return [2 /*return*/];
+                            });
+                        }); });
+                        worker.on('completed', function (job) {
+                            console.log("Worker job:" + job.id + " has completed!");
+                        });
+                        worker.on('failed', function (job, err) {
+                            console.log("Worker job:" + job.id + " has failed with " + err.message);
+                        });
+                        queueEvents = new bullmq_1.QueueEvents('fistQueue');
+                        queueEvents.on('completed', function (event) {
+                            console.log("Event job:" + event.jobId + " has completed!");
+                        });
+                        queueEvents.on('failed', function (event, err) {
+                            console.log("Event job:" + event.jobId + " has failed with " + err.message);
+                        });
+                        // Test
+                        return [4 /*yield*/, addJobs()];
                     case 1:
-                        // @nhancv 9/16/19: Connect db
-                        _a.sent();
-                        // @nhancv 9/16/19: Check migrate
-                        return [4 /*yield*/, new MongoMigrate_1.MongoMigrate().migrate()];
-                    case 2:
-                        // @nhancv 9/16/19: Check migrate
-                        _a.sent();
-                        bot = new TemplateBot_1.default();
-                        return [4 /*yield*/, bot.create()];
-                    case 3:
-                        _a.sent();
-                        return [4 /*yield*/, bot.start()];
-                    case 4:
-                        _a.sent();
-                        emailNotifier = new EmailNotifier_1.default();
-                        emailNotifier.setBot(bot);
-                        return [4 /*yield*/, emailNotifier.start()];
-                    case 5:
-                        _a.sent();
-                        // @nhancv 11/27/19: Run cron job
-                        // @nhancv 12/20/19: For premium job queue
-                        return [4 /*yield*/, new BullMQJob_1.default().execute()];
-                    case 6:
-                        // @nhancv 11/27/19: Run cron job
-                        // @nhancv 12/20/19: For premium job queue
-                        _a.sent();
-                        cronJob = new CronJob_1.default();
-                        cronJob.setBot(bot);
-                        return [4 /*yield*/, cronJob.execute()];
-                    case 7:
+                        // Test
                         _a.sent();
                         return [2 /*return*/];
                 }
             });
         });
     };
-    return Business;
-}(RilModule_1.default));
-exports.default = Business;
-//# sourceMappingURL=index.js.map
+    return BullMQJob;
+}());
+exports.default = BullMQJob;
+//# sourceMappingURL=BullMQJob.js.map

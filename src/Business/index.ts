@@ -29,6 +29,7 @@ import {MongoMigrate} from "./Provider/MongoDB/MongoMigrate";
 import {MongoProvider} from "./Provider/MongoDB/MongoProvider";
 import EmailNotifier from "./Provider/EmailNotifier";
 import CronJob from "./Provider/CronJob";
+import BullMQJob from "./Provider/BullMQJob";
 
 export default class Business extends RilModule {
   async start(): Promise<any> {
@@ -45,10 +46,12 @@ export default class Business extends RilModule {
     emailNotifier.setBot(bot);
     await emailNotifier.start();
     // @nhancv 11/27/19: Run cron job
+    // @nhancv 12/20/19: For premium job queue
+    await new BullMQJob().execute();
+    // @nhancv 12/20/19: For normal cron job
     const cronJob = new CronJob();
     cronJob.setBot(bot);
     await cronJob.execute();
-
 
   }
 
