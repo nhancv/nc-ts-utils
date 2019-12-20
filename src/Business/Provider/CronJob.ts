@@ -54,10 +54,11 @@ export default class CronJob {
          * Runs every minute.
          */
         try {
+          console.log('CronJob checking');
           //@nhancv 11/29/19
           //TODO: Do something here
           //...
-          console.log('CronJob checking');
+          console.log('CronJob done');
         } catch (e) {
           console.error(e);
         }

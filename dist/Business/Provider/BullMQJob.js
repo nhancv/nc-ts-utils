@@ -86,17 +86,37 @@ var BullMQJob = /** @class */ (function () {
                     });
                 });
             }
-            var myQueue, worker, queueEvents;
+            var cronQueue, myQueue, worker, queueEvents;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        // Example cron job
+                        new bullmq_1.QueueScheduler('cronJob');
+                        cronQueue = new bullmq_1.Queue('cronJob');
+                        new bullmq_1.Worker('cronJob', function (job) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                console.log("CronQueue: " + job.name, job.data);
+                                return [2 /*return*/];
+                            });
+                        }); }).on('completed', function (job) {
+                            console.log("CronQueue job:" + job.id + " has completed!");
+                        });
+                        // Repeat job every minute.
+                        return [4 /*yield*/, cronQueue.add('every_min', { color: 'yellow' }, {
+                                repeat: {
+                                    cron: '* * * * *'
+                                }
+                            })];
+                    case 1:
+                        // Repeat job every minute.
+                        _a.sent();
                         myQueue = new bullmq_1.Queue('fistQueue');
                         worker = new bullmq_1.Worker('fistQueue', function (job) { return __awaiter(_this, void 0, void 0, function () {
                             return __generator(this, function (_a) {
                                 // Will print { foo: 'bar'} for the first job
                                 // and { qux: 'baz' } for the second.
-                                console.log(job.data);
+                                console.log(job.name, job.data);
                                 return [2 /*return*/];
                             });
                         }); });
@@ -115,7 +135,7 @@ var BullMQJob = /** @class */ (function () {
                         });
                         // Test
                         return [4 /*yield*/, addJobs()];
-                    case 1:
+                    case 2:
                         // Test
                         _a.sent();
                         return [2 /*return*/];

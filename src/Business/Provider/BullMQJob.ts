@@ -29,29 +29,46 @@
  * Required: Redis installed first
  */
 
-import { Queue, Worker, QueueEvents } from 'bullmq'
+import {Job, Queue, QueueEvents, QueueScheduler, Worker} from 'bullmq'
 
 export default class BullMQJob {
 
   async execute() {
+    // Example cron job
+    new QueueScheduler('cronJob');
+    const cronQueue = new Queue('cronJob');
+    new Worker('cronJob', async (job: Job) => {
+      console.log(`CronQueue: ${job.name}`, job.data);
+    }).on('completed', (job: Job) => {
+      console.log(`CronQueue job:${job.id} has completed!`);
+    });
+    // Repeat job every minute.
+    await cronQueue.add('every_min', {color: 'yellow'},
+      {
+        repeat: {
+          cron: '* * * * *'
+        }
+      });
+
 
     // Create new queue and push some jobs
     const myQueue = new Queue('fistQueue');
-    async function addJobs(){
-      await myQueue.add('myJobName1', { foo: 'bar' });
-      await myQueue.add('myJobName2', { qux: 'baz' });
+
+    async function addJobs() {
+      await myQueue.add('myJobName1', {foo: 'bar'});
+      await myQueue.add('myJobName2', {qux: 'baz'});
     }
 
     // Tracking specific queue internally
-    const worker = new Worker('fistQueue', async job => {
+    const worker = new Worker('fistQueue', async (job: Job) => {
       // Will print { foo: 'bar'} for the first job
       // and { qux: 'baz' } for the second.
-      console.log(job.data);
+      console.log(job.name, job.data);
     });
-    worker.on('completed', (job) => {
+    worker.on('completed', (job: Job) => {
       console.log(`Worker job:${job.id} has completed!`);
     });
-    worker.on('failed', (job, err) => {
+    worker.on('failed', (job: Job, err) => {
       console.log(`Worker job:${job.id} has failed with ${err.message}`);
     });
 
