@@ -55,42 +55,87 @@ If it replies “PONG”, then it’s good to go!
 - For ubuntu
 ```
 # Install
-https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04
-https://codewithhugo.com/install-just-redis-cli-on-ubuntu-debian-jessie/
+https://www.digitalocean.com/community/tutorials/how-to-install-redis-from-source-on-ubuntu-18-04
 $ sudo apt update
-$ sudo apt upgrade
-$ sudo apt install redis-server
+$ sudo apt install build-essential tcl
+$ cd /tmp &&\
+    curl http://download.redis.io/redis-stable.tar.gz | tar xz &&\
+    cd redis-stable &&\
+    make distclean &&\
+    make clean &&\
+    make &&\
+    make test &&\
+    sudo make install
 
-Update config file
+
+$ sudo mkdir /etc/redis
+$ sudo cp /tmp/redis-stable/redis.conf /etc/redis
+
+# Update config file
 $ sudo nano /etc/redis/redis.conf
 ….
+# If you run Redis from upstart or systemd, Redis can interact with your
+# supervision tree. Options:
+#   supervised no      - no supervision interaction
+#   supervised upstart - signal upstart by putting Redis into SIGSTOP mode
+#   supervised systemd - signal systemd by writing READY=1 to $NOTIFY_SOCKET
+#   supervised auto    - detect upstart or systemd method based on
+#                        UPSTART_JOB or NOTIFY_SOCKET environment variables
+# Note: these supervision methods only signal "process is ready."
+#       They do not enable continuous liveness pings back to your supervisor.
 supervised systemd
-….
-$ sudo systemctl restart redis-server
 
----------
+…...
+# The working directory.
+#
+# The DB will be written inside this directory, with the filename specified
+# above using the 'dbfilename' configuration directive.
+#
+# The Append Only File will also be created inside this directory.
+#
+# Note that you must specify a directory here, not a file name.
+dir /var/lib/redis
+….
+
+
+# Creating a Redis systemd Unit File
+$ sudo nano /etc/systemd/system/redis.service
+[Unit]
+Description=Redis In-Memory Data Store
+After=network.target
+
+[Service]
+User=redis
+Group=redis
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
+ExecStop=/usr/local/bin/redis-cli shutdown
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+# Creating the Redis User, Group, and Directories
+$ sudo adduser --system --group --no-create-home redis
+$ sudo mkdir /var/lib/redis
+$ sudo chown redis:redis /var/lib/redis
+$ sudo chmod 770 /var/lib/redis
+
+-------------------
 # Command
 Restart Redis
-$ sudo systemctl restart redis-server
-$ sudo systemctl enable redis-server
+$ sudo systemctl restart redis
+$ sudo systemctl enable redis
 
 
 View Redis status
-$ sudo systemctl status redis-server
+$ sudo systemctl status redis
+
 
 Test if Redis server is running
 $ redis-cli
 > ping
 PONG
-
-## To upgrade redis-cli, run below command
-cd /tmp &&\
-    curl http://download.redis.io/redis-stable.tar.gz | tar xz &&\
-    make -C redis-stable &&\
-    cp redis-stable/src/redis-cli /usr/local/bin &&\
-    rm -rf /tmp/redis-stable
-logout and login again
-$ redis-cli --version
 ```
 
 
