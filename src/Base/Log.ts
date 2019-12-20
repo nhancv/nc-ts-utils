@@ -27,8 +27,8 @@
 // Init logger
 import moment from "moment";
 import * as logform from "logform";
-const winston = require('winston');
-require('winston-daily-rotate-file');
+import * as winston from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
 
 const environment = process.env.NODE_ENV || 'dev';
 // @nhancv 2019-09-10: Format log with specific timezone
@@ -41,7 +41,7 @@ const logFormat: logform.Format = winston.format.combine(
   ),
 );
 // @nhancv 2019-09-10: MongoConnect for file transport
-const fileTransport: Transport = new winston.transports.DailyRotateFile({
+const fileTransport = new DailyRotateFile({
   filename: './logs/%DATE%.log',
   datePattern: 'YYYY-MM-DD-HH',
   handleExceptions: true,
@@ -50,7 +50,7 @@ const fileTransport: Transport = new winston.transports.DailyRotateFile({
   maxFiles: '15d'
 });
 // @nhancv 2019-09-10: MongoConnect for console transport
-const consoleTransport: Transport = new winston.transports.Console({
+const consoleTransport = new winston.transports.Console({
   handleExceptions: true,
 });
 

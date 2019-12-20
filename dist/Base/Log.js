@@ -26,16 +26,23 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // Init logger
 var moment_1 = __importDefault(require("moment"));
-var winston = require('winston');
-require('winston-daily-rotate-file');
+var winston = __importStar(require("winston"));
+var winston_daily_rotate_file_1 = __importDefault(require("winston-daily-rotate-file"));
 var environment = process.env.NODE_ENV || 'dev';
 // @nhancv 2019-09-10: Format log with specific timezone
 var logFormat = winston.format.combine(winston.format.colorize(), winston.format.timestamp(), winston.format.align(), winston.format.printf(function (info) { return moment_1.default(info.timestamp).utc().utcOffset("+0700").format() + '-' + environment + '-message:' + info.message; }));
 // @nhancv 2019-09-10: MongoConnect for file transport
-var fileTransport = new winston.transports.DailyRotateFile({
+var fileTransport = new winston_daily_rotate_file_1.default({
     filename: './logs/%DATE%.log',
     datePattern: 'YYYY-MM-DD-HH',
     handleExceptions: true,
