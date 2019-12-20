@@ -56,6 +56,7 @@ If it replies “PONG”, then it’s good to go!
 ```
 # Install
 https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04
+https://codewithhugo.com/install-just-redis-cli-on-ubuntu-debian-jessie/
 $ sudo apt update
 $ sudo apt upgrade
 $ sudo apt install redis-server
@@ -81,6 +82,15 @@ Test if Redis server is running
 $ redis-cli
 > ping
 PONG
+
+## To upgrade redis-cli, run below command
+cd /tmp &&\
+    curl http://download.redis.io/redis-stable.tar.gz | tar xz &&\
+    make -C redis-stable &&\
+    cp redis-stable/src/redis-cli /usr/local/bin &&\
+    rm -rf /tmp/redis-stable
+logout and login again
+$ redis-cli --version
 ```
 
 
