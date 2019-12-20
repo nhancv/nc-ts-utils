@@ -57,6 +57,7 @@ If it replies “PONG”, then it’s good to go!
 # Install
 https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-redis-on-ubuntu-18-04
 $ sudo apt update
+$ sudo apt upgrade
 $ sudo apt install redis-server
 
 Update config file
@@ -64,15 +65,17 @@ $ sudo nano /etc/redis/redis.conf
 ….
 supervised systemd
 ….
-$ sudo systemctl restart redis.service
+$ sudo systemctl restart redis-server
 
 ---------
 # Command
 Restart Redis
-$ sudo systemctl restart redis
+$ sudo systemctl restart redis-server
+$ sudo systemctl enable redis-server
+
 
 View Redis status
-$ sudo systemctl status redis
+$ sudo systemctl status redis-server
 
 Test if Redis server is running
 $ redis-cli
