@@ -148,7 +148,7 @@ var App = /** @class */ (function (_super) {
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
-                console.error(e_1.message);
+                Log_1.default.error(e_1.message);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

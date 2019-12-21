@@ -59,7 +59,7 @@ class App extends RilNode {
     // await app.startBusiness();
     await app.startGateway();
   } catch (e) {
-    console.error(e.message);
+    Log.error(e.message);
   }
 })();
 
