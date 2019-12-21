@@ -39,8 +39,9 @@ export default class Gateway extends RilModule {
     app.use(compression());
     // Config http logging with morgan
     morgan.token('date', (req, res, tz) => moment().utc().utcOffset("+0700").format());
+    // Morgan format: combined | tiny | custom
     const morganFormat = '[:date] :method :url :status - :response-time ms :user-agent';
-    app.use(morgan(morganFormat));
+    app.use(morgan(morganFormat, {stream: Log['morgan']}));
     //////////////////////////////////////////////////////////////////
     /**
      * Declare controller

@@ -134,24 +134,23 @@ var App = /** @class */ (function (_super) {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 4, , 5]);
+                _a.trys.push([0, 3, , 4]);
                 app = new App();
                 return [4 /*yield*/, app.init()];
             case 1:
                 _a.sent();
                 Log_1.default.info('Initialized.');
-                return [4 /*yield*/, app.startBusiness()];
-            case 2:
-                _a.sent();
+                // await app.startBusiness();
                 return [4 /*yield*/, app.startGateway()];
-            case 3:
+            case 2:
+                // await app.startBusiness();
                 _a.sent();
-                return [3 /*break*/, 5];
-            case 4:
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
                 console.error(e_1.message);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); })();

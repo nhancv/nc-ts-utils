@@ -55,12 +55,18 @@ var consoleTransport = new winston.transports.Console({
     handleExceptions: true,
 });
 // @nhancv 2019-09-10: Create new logger id
-winston.loggers.add('Logger', {
+var logger = winston.loggers.add('Logger', {
     format: logFormat,
     transports: [
         fileTransport,
         consoleTransport,
     ]
 });
+// Add stream for morgan
+logger['morgan'] = {
+    write: function (text) {
+        logger.info(text.replace(/\n$/, ''));
+    }
+};
 exports.default = winston.loggers.get('Logger');
 //# sourceMappingURL=Log.js.map

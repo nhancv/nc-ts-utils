@@ -105,7 +105,7 @@ var Gateway = /** @class */ (function (_super) {
                 // Config http logging with morgan
                 morgan_1.default.token('date', function (req, res, tz) { return moment_1.default().utc().utcOffset("+0700").format(); });
                 morganFormat = '[:date] :method :url :status - :response-time ms :user-agent';
-                app.use(morgan_1.default(morganFormat));
+                app.use(morgan_1.default(morganFormat, { stream: Log_1.default['morgan'] }));
                 aboutController = new Controller.About();
                 /**
                  * API calls, use Postman for testing

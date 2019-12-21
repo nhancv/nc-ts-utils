@@ -56,7 +56,7 @@ class App extends RilNode {
     const app = new App();
     await app.init();
     Log.info('Initialized.');
-    await app.startBusiness();
+    // await app.startBusiness();
     await app.startGateway();
   } catch (e) {
     console.error(e.message);
