@@ -59,6 +59,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * For BullMQ
@@ -66,6 +69,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Required: Redis installed first
  */
 var bullmq_1 = require("bullmq");
+var Log_1 = __importDefault(require("../../Base/Log"));
 var BullMQJob = /** @class */ (function () {
     function BullMQJob() {
     }
@@ -96,11 +100,11 @@ var BullMQJob = /** @class */ (function () {
                         cronQueue = new bullmq_1.Queue('cronJob');
                         new bullmq_1.Worker('cronJob', function (job) { return __awaiter(_this, void 0, void 0, function () {
                             return __generator(this, function (_a) {
-                                console.log("CronQueue: " + job.name, job.data);
+                                Log_1.default.info("CronQueue: " + job.name + ": " + JSON.stringify(job.data));
                                 return [2 /*return*/];
                             });
                         }); }).on('completed', function (job) {
-                            console.log("CronQueue job:" + job.id + " has completed!");
+                            Log_1.default.info("CronQueue job:" + job.id + " has completed!");
                         });
                         // Repeat job every minute.
                         return [4 /*yield*/, cronQueue.add('every_min', { color: 'yellow' }, {
@@ -116,22 +120,22 @@ var BullMQJob = /** @class */ (function () {
                             return __generator(this, function (_a) {
                                 // Will print { foo: 'bar'} for the first job
                                 // and { qux: 'baz' } for the second.
-                                console.log(job.name, job.data);
+                                Log_1.default.info(job.name + ": " + JSON.stringify(job.data));
                                 return [2 /*return*/];
                             });
                         }); });
                         worker.on('completed', function (job) {
-                            console.log("Worker job:" + job.id + " has completed!");
+                            Log_1.default.info("Worker job:" + job.id + " has completed!");
                         });
                         worker.on('failed', function (job, err) {
-                            console.log("Worker job:" + job.id + " has failed with " + err.message);
+                            Log_1.default.info("Worker job:" + job.id + " has failed with " + err.message);
                         });
                         queueEvents = new bullmq_1.QueueEvents('fistQueue');
                         queueEvents.on('completed', function (event) {
-                            console.log("Event job:" + event.jobId + " has completed!");
+                            Log_1.default.info("Event job:" + event.jobId + " has completed!");
                         });
                         queueEvents.on('failed', function (event, err) {
-                            console.log("Event job:" + event.jobId + " has failed with " + err.message);
+                            Log_1.default.info("Event job:" + event.jobId + " has failed with " + err.message);
                         });
                         // Test
                         return [4 /*yield*/, addJobs()];

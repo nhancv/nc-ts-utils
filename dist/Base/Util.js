@@ -14,11 +14,11 @@ var Util = /** @class */ (function () {
         return moment_1.default.utc().utcOffset(Util.TIME_ZONE);
     };
     /**
-     * Generate payment code with only uppercase and number
+     * Generate code
      */
     Util.genId = function () {
         var generate = require('nanoid/generate');
-        return generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 9).toUpperCase();
+        return generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 9).toUpperCase();
     };
     Util.TIME_ZONE = "+0700";
     // @nhancv 10/13/19: Check null and undefined

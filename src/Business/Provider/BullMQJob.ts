@@ -30,6 +30,7 @@
  */
 
 import {Job, Queue, QueueEvents, QueueScheduler, Worker} from 'bullmq'
+import Log from "../../Base/Log";
 
 export default class BullMQJob {
 
@@ -38,9 +39,9 @@ export default class BullMQJob {
     new QueueScheduler('cronJob');
     const cronQueue = new Queue('cronJob');
     new Worker('cronJob', async (job: Job) => {
-      console.log(`CronQueue: ${job.name}`, job.data);
+      Log.info(`CronQueue: ${job.name}: ${JSON.stringify(job.data)}`);
     }).on('completed', (job: Job) => {
-      console.log(`CronQueue job:${job.id} has completed!`);
+      Log.info(`CronQueue job:${job.id} has completed!`);
     });
     // Repeat job every minute.
     await cronQueue.add('every_min', {color: 'yellow'},
@@ -63,22 +64,22 @@ export default class BullMQJob {
     const worker = new Worker('fistQueue', async (job: Job) => {
       // Will print { foo: 'bar'} for the first job
       // and { qux: 'baz' } for the second.
-      console.log(job.name, job.data);
+      Log.info(`${job.name}: ${JSON.stringify(job.data)}`);
     });
     worker.on('completed', (job: Job) => {
-      console.log(`Worker job:${job.id} has completed!`);
+      Log.info(`Worker job:${job.id} has completed!`);
     });
     worker.on('failed', (job: Job, err) => {
-      console.log(`Worker job:${job.id} has failed with ${err.message}`);
+      Log.info(`Worker job:${job.id} has failed with ${err.message}`);
     });
 
     // Tracking queue events globally
     const queueEvents = new QueueEvents('fistQueue');
     queueEvents.on('completed', (event) => {
-      console.log(`Event job:${event.jobId} has completed!`);
+      Log.info(`Event job:${event.jobId} has completed!`);
     });
     queueEvents.on('failed', (event, err) => {
-      console.log(`Event job:${event.jobId} has failed with ${err.message}`);
+      Log.info(`Event job:${event.jobId} has failed with ${err.message}`);
     });
 
     // Test

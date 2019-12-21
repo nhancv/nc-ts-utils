@@ -74,6 +74,7 @@ var morgan_1 = __importDefault(require("morgan"));
 var Controller = __importStar(require("./Controller"));
 var RilModule_1 = __importDefault(require("../Base/RilModule"));
 var Util_1 = __importDefault(require("../Base/Util"));
+var Log_1 = __importDefault(require("../Base/Log"));
 var Gateway = /** @class */ (function (_super) {
     __extends(Gateway, _super);
     function Gateway() {
@@ -83,10 +84,9 @@ var Gateway = /** @class */ (function (_super) {
     }
     Gateway.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var log, app, port, morganFormat, aboutController, hostname;
+            var app, port, morganFormat, aboutController, hostname;
             var _this = this;
             return __generator(this, function (_a) {
-                log = console.log;
                 app = express_1.default();
                 port = parseInt(process.env.PORT || '7777');
                 //////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ var Gateway = /** @class */ (function (_super) {
                 hostname = process.env.NODE_ENV == 'dev' ? 'localhost' : 'localhost';
                 try {
                     app.listen(port, hostname, function () {
-                        log('Server %s listening at port %d', process.env.NODE_ENV, port);
+                        Log_1.default.info("Server " + process.env.NODE_ENV + " listening at port " + port);
                     });
                 }
                 catch (e) {

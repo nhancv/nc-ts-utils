@@ -77,6 +77,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var RilModule_1 = __importDefault(require("../../Base/RilModule"));
+var Log_1 = __importDefault(require("../../Base/Log"));
 var notifier = require('mail-notifier');
 var EmailNotifier = /** @class */ (function (_super) {
     __extends(EmailNotifier, _super);
@@ -102,7 +103,7 @@ var EmailNotifier = /** @class */ (function (_super) {
                 n = notifier(imap);
                 n.on('end', function () { return n.start(); }) // session closed
                     .on('mail', function (mail) {
-                    console.log(mail.from[0].address, mail.subject);
+                    Log_1.default.info("From " + mail.from[0].address + ": " + mail.subject);
                     _this.parser(mail);
                 })
                     .start();
@@ -123,7 +124,7 @@ var EmailNotifier = /** @class */ (function (_super) {
                     from = mail.from[0].address;
                     to = mail.to[0].address;
                     body = mail.html;
-                    console.log("Subject: " + subject
+                    Log_1.default.info("Subject: " + subject
                         + ("\nFrom: " + from)
                         + ("\nTo: " + to)
                         + ("\nBody: " + body));

@@ -25,6 +25,7 @@
 
 import RilModule from "../../Base/RilModule";
 import TemplateBot from "./TelegramBot/TemplateBot";
+import Log from "../../Base/Log";
 
 const notifier = require('mail-notifier');
 
@@ -50,7 +51,7 @@ export default class EmailNotifier extends RilModule {
     const n = notifier(imap);
     n.on('end', () => n.start()) // session closed
       .on('mail', mail => {
-        console.log(mail.from[0].address, mail.subject);
+        Log.info(`From ${mail.from[0].address}: ${mail.subject}`);
         this.parser(mail);
       })
       .start();
@@ -66,7 +67,7 @@ export default class EmailNotifier extends RilModule {
       const from = mail.from[0].address;
       const to = mail.to[0].address;
       const body = mail.html;
-      console.log(`Subject: ${subject}`
+      Log.info(`Subject: ${subject}`
         + `\nFrom: ${from}`
         + `\nTo: ${to}`
         + `\nBody: ${body}`

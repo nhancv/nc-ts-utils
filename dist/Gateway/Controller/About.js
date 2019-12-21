@@ -58,18 +58,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var Util_1 = __importDefault(require("../../Base/Util"));
 var About = /** @class */ (function () {
     function About() {
         var _this = this;
+        this.AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
         this.getAbout = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var response;
+            var token, response_1, response;
             return __generator(this, function (_a) {
+                token = req.header('token');
+                if (!Util_1.default.isEmpty(token) && this.AUTH_TOKEN == token) {
+                    response_1 = {
+                        code: 200,
+                        body: {
+                            about: 'https://nhancv.github.io'
+                        }
+                    };
+                    return [2 /*return*/, res.status(response_1.code).json(response_1)];
+                }
                 response = {
-                    code: 200,
-                    body: {
-                        about: 'https://nhancv.github.io'
-                    }
+                    code: 500,
+                    body: 'Fuck you.'
                 };
                 return [2 /*return*/, res.status(response.code).json(response)];
             });

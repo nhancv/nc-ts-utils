@@ -66,11 +66,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var MongoProvider_1 = require("../MongoProvider");
 var mongoose = __importStar(require("mongodb"));
-var log = console.log;
-var loge = console.error;
+var Log_1 = __importDefault(require("../../../../Base/Log"));
 /**
  * This class helper generate data
  */
@@ -90,22 +92,22 @@ var Octopus = /** @class */ (function () {
                         return [4 /*yield*/, this.db.collection(collectionName).drop()];
                     case 1:
                         _a.sent();
-                        log("Collection %s deleted", collectionName);
+                        Log_1.default.info("Collection %s deleted", collectionName);
                         return [3 /*break*/, 3];
                     case 2:
                         e_1 = _a.sent();
-                        loge("Drop " + collectionName + " e.message");
+                        Log_1.default.error("Drop " + collectionName + " e.message");
                         return [3 /*break*/, 3];
                     case 3:
                         _a.trys.push([3, 5, , 6]);
                         return [4 /*yield*/, this.db.createCollection(collectionName)];
                     case 4:
                         _a.sent();
-                        log("Collection %s created!", collectionName);
+                        Log_1.default.info("Collection %s created!", collectionName);
                         return [3 /*break*/, 6];
                     case 5:
                         e_2 = _a.sent();
-                        loge(e_2.message);
+                        Log_1.default.error(e_2.message);
                         return [3 /*break*/, 6];
                     case 6: return [2 /*return*/];
                 }
@@ -131,7 +133,7 @@ var Octopus = /** @class */ (function () {
                             return [3 /*break*/, 3];
                         case 2:
                             e_3 = _a.sent();
-                            loge(e_3.message);
+                            Log_1.default.error(e_3.message);
                             return [3 /*break*/, 3];
                         case 3: return [2 /*return*/];
                     }
@@ -143,7 +145,7 @@ var Octopus = /** @class */ (function () {
     Octopus.prototype.finish = function () {
         if (this.db)
             MongoProvider_1.MongoProvider.instance.connection.close(function () {
-                log("Connection closed!");
+                Log_1.default.info("Connection closed!");
             });
     };
     return Octopus;

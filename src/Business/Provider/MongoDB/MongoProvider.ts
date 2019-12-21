@@ -26,6 +26,7 @@
 import * as mongoose from "mongodb";
 import {IConnection, IStore} from "./index";
 import {MongoConnect, MongoUri} from "./MongoConnect";
+import Log from "../../../Base/Log";
 
 export class MongoProvider implements IConnection<mongoose.MongoClient>, IStore<mongoose.Db> {
 
@@ -48,7 +49,7 @@ export class MongoProvider implements IConnection<mongoose.MongoClient>, IStore<
     let url = `${config.protocol}://${config.username}:${config.password}@${config.host}/${config.dbname}`;
     this.conn = (await mongoose.MongoClient.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}));
     this.db = this.conn.db(config.dbname);
-    console.log('Database connected');
+    Log.info('Database connected');
     return this.conn;
   }
 

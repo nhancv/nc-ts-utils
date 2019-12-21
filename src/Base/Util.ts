@@ -11,11 +11,11 @@ export default class Util {
   }
 
   /**
-   * Generate payment code with only uppercase and number
+   * Generate code
    */
   static genId(): string {
     const generate = require('nanoid/generate');
-    return generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', 9).toUpperCase();
+    return generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 9).toUpperCase();
   }
 
   // @nhancv 10/13/19: Check null and undefined

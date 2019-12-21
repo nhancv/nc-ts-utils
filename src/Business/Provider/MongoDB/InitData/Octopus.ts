@@ -26,9 +26,7 @@
 import Base from "./Base";
 import {MongoProvider} from "../MongoProvider";
 import * as mongoose from "mongodb";
-
-const log = console.log;
-const loge = console.error;
+import Log from "../../../../Base/Log";
 
 /**
  * This class helper generate data
@@ -45,15 +43,15 @@ export class Octopus {
       try {
         mongoose.ObjectID.generate();
         await this.db.collection(collectionName).drop();
-        log("Collection %s deleted", collectionName);
+        Log.info("Collection %s deleted", collectionName);
       } catch (e) {
-        loge(`Drop ${collectionName} e.message`)
+        Log.error(`Drop ${collectionName} e.message`)
       }
       try {
         await this.db.createCollection(collectionName);
-        log("Collection %s created!", collectionName);
+        Log.info("Collection %s created!", collectionName);
       } catch (e) {
-        loge(e.message)
+        Log.error(e.message)
       }
     };
     return Promise.all(collectionArray.map(fn));
@@ -67,7 +65,7 @@ export class Octopus {
         try {
           await this.db.collection(base.getTableName()).insertOne(item);
         } catch (e) {
-          loge(e.message);
+          Log.error(e.message);
         }
       };
       return Promise.all(base.getTableData().map(fn));
@@ -76,7 +74,7 @@ export class Octopus {
 
   finish() {
     if (this.db) MongoProvider.instance.connection.close(() => {
-      log("Connection closed!");
+      Log.info("Connection closed!");
     });
   }
 }

@@ -14,13 +14,13 @@ import * as Controller from "./Controller";
 import IResponse from "./Controller/IResponse";
 import RilModule from "../Base/RilModule";
 import Util from "../Base/Util";
+import Log from "../Base/Log";
 
 export default class Gateway extends RilModule {
 
   AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
 
   async start(): Promise<any> {
-    const log = console.log;
     const app = express();
     const port = parseInt(process.env.PORT || '7777');
 
@@ -79,7 +79,7 @@ export default class Gateway extends RilModule {
     const hostname = process.env.NODE_ENV == 'dev' ? 'localhost' : 'localhost';
     try {
       app.listen(port, hostname, () => {
-        log('Server %s listening at port %d', process.env.NODE_ENV, port);
+        Log.info(`Server ${process.env.NODE_ENV} listening at port ${port}`);
       });
     } catch (e) {
       console.error(e);

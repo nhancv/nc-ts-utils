@@ -66,9 +66,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = __importStar(require("mongodb"));
 var MongoConnect_1 = require("./MongoConnect");
+var Log_1 = __importDefault(require("../../../Base/Log"));
 var MongoProvider = /** @class */ (function () {
     function MongoProvider() {
     }
@@ -94,7 +98,7 @@ var MongoProvider = /** @class */ (function () {
                     case 1:
                         _a.conn = (_b.sent());
                         this.db = this.conn.db(config.dbname);
-                        console.log('Database connected');
+                        Log_1.default.info('Database connected');
                         return [2 /*return*/, this.conn];
                 }
             });

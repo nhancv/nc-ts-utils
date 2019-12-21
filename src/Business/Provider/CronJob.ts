@@ -23,6 +23,7 @@
  *
  */
 import TemplateBot from "./TelegramBot/TemplateBot";
+import Log from "../../Base/Log";
 
 const fs = require('fs');
 const readline = require('readline');
@@ -54,11 +55,11 @@ export default class CronJob {
          * Runs every minute.
          */
         try {
-          console.log('CronJob checking');
+          Log.info('CronJob checking');
           //@nhancv 11/29/19
           //TODO: Do something here
           //...
-          console.log('CronJob done');
+          Log.info('CronJob done');
         } catch (e) {
           console.error(e);
         }
