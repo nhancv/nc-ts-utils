@@ -24,7 +24,7 @@
  */
 
 import * as mongoose from "mongodb";
-import {FilterQuery} from "mongodb";
+import {FilterQuery, UpdateOneOptions} from "mongodb";
 import {MongoProvider} from "../MongoProvider";
 
 const logger = console;
@@ -75,9 +75,9 @@ export abstract class BaseRepo<T> implements IWrite<T>, IRead<T> {
     }
   }
 
-  async update(query: object, item: T | object): Promise<boolean> {
+  async update(query: object, item: T | object, options?: UpdateOneOptions): Promise<boolean> {
     try {
-      const result: mongoose.UpdateWriteOpResult = await this.collection.updateOne(query, {$set: item});
+      const result: mongoose.UpdateWriteOpResult = await this.collection.updateOne(query, {$set: item}, options);
       return !!result.result.ok && !!result.result.n;
     } catch (e) {
       logger.error(e.message);

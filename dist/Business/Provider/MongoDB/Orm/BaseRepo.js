@@ -106,14 +106,14 @@ var BaseRepo = /** @class */ (function () {
             });
         });
     };
-    BaseRepo.prototype.update = function (query, item) {
+    BaseRepo.prototype.update = function (query, item, options) {
         return __awaiter(this, void 0, void 0, function () {
             var result, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.collection.updateOne(query, { $set: item })];
+                        return [4 /*yield*/, this.collection.updateOne(query, { $set: item }, options)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, !!result.result.ok && !!result.result.n];
