@@ -7,6 +7,10 @@ export default class Util {
     return moment.utc().utcOffset(Util.TIME_ZONE);
   }
 
+  static currentTimeStr() {
+    return moment.utc().utcOffset(Util.TIME_ZONE).format("YYYY-MM-DD HH:mm");
+  }
+
   static currentUTC() {
     return moment.utc();
   }
