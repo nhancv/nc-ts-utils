@@ -29,13 +29,13 @@ import Log from "./Base/Log";
 
 class App extends RilNode {
 
-  bussiness: Business;
+  business: Business;
   gateway: Gateway;
 
   constructor() {
     super();
-    this.bussiness = new Business();
-    this.gateway = new Gateway(this.bussiness);
+    this.business = new Business();
+    this.gateway = new Gateway(this.business);
   }
 
   async init(): Promise<any> {
@@ -49,7 +49,7 @@ class App extends RilNode {
   }
 
   async startBusiness(): Promise<any> {
-    await this.bussiness.start();
+    await this.business.start();
   }
 
   async startGateway(): Promise<any> {

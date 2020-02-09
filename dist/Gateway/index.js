@@ -77,9 +77,10 @@ var Util_1 = __importDefault(require("../Base/Util"));
 var Log_1 = __importDefault(require("../Base/Log"));
 var Gateway = /** @class */ (function (_super) {
     __extends(Gateway, _super);
-    function Gateway() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+    function Gateway(gatewayShared) {
+        var _this = _super.call(this) || this;
         _this.AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
+        _this.gatewayShared = gatewayShared;
         return _this;
     }
     Gateway.prototype.start = function () {

@@ -83,7 +83,10 @@ var Log_1 = __importDefault(require("./Base/Log"));
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this.business = new Business_1.default();
+        _this.gateway = new Gateway_1.default(_this.business);
+        return _this;
     }
     App.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -104,7 +107,7 @@ var App = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, new Business_1.default().start()];
+                    case 0: return [4 /*yield*/, this.business.start()];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -116,7 +119,7 @@ var App = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, new Gateway_1.default().start()];
+                    case 0: return [4 /*yield*/, this.gateway.start()];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

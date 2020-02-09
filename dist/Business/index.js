@@ -133,6 +133,20 @@ var Business = /** @class */ (function (_super) {
             });
         });
     };
+    Business.prototype.gatewayOutput = function (message) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    Business.prototype.gatewayRequest = function (requestData) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     return Business;
 }(RilModule_1.default));
 exports.default = Business;
