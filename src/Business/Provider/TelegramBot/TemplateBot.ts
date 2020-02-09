@@ -32,9 +32,9 @@ import ChatIdCommand from "./Command/ChatIdCommand";
 export default class TemplateBot extends RilModule implements BotBase {
 
   bot: any;
-  botToken: any = process.env.BOT_TOKEN;
-  botAdminId: any = process.env.BOT_ADMIN_ID;
-  botAdminChannelId: any = process.env.BOT_ADMIN_CHANNEL_ID;
+  botToken: any;
+  botAdminId: any;
+  botAdminChannelId: any;
   command: any = {};
   commandData: any = {};
   //commands
@@ -42,6 +42,9 @@ export default class TemplateBot extends RilModule implements BotBase {
 
   constructor() {
     super();
+    this.botToken = process.env.BOT_TOKEN;
+    this.botAdminId = process.env.BOT_ADMIN_ID;
+    this.botAdminChannelId = process.env.BOT_ADMIN_CHANNEL_ID;
     this.chatIdCommand = new ChatIdCommand('chat_id', 'Get chatId', this);
 
   }
