@@ -19,8 +19,6 @@ import GatewayHook from "./GatewayHook";
 
 export default class Gateway extends RilModule {
 
-  AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
-
   gatewayHook: GatewayHook;
 
   constructor(gatewayHook: GatewayHook) {
@@ -55,8 +53,9 @@ export default class Gateway extends RilModule {
      * Auth middleware
      */
     app.use((req, res, next) => {
+      const AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
       const token: string | undefined = req.header('token');
-      if (!Util.isEmpty(token) && this.AUTH_TOKEN == token) {
+      if (!Util.isEmpty(token) && AUTH_TOKEN == token) {
         next();
       } else {
         let response: IResponse = {

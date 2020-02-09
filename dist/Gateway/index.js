@@ -79,14 +79,12 @@ var Gateway = /** @class */ (function (_super) {
     __extends(Gateway, _super);
     function Gateway(gatewayHook) {
         var _this = _super.call(this) || this;
-        _this.AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
         _this.gatewayHook = gatewayHook;
         return _this;
     }
     Gateway.prototype.start = function () {
         return __awaiter(this, void 0, void 0, function () {
             var app, port, morganFormat, aboutController, hostname;
-            var _this = this;
             return __generator(this, function (_a) {
                 app = express_1.default();
                 port = parseInt(process.env.PORT || '7777');
@@ -112,8 +110,9 @@ var Gateway = /** @class */ (function (_super) {
                  * Auth middleware
                  */
                 app.use(function (req, res, next) {
+                    var AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
                     var token = req.header('token');
-                    if (!Util_1.default.isEmpty(token) && _this.AUTH_TOKEN == token) {
+                    if (!Util_1.default.isEmpty(token) && AUTH_TOKEN == token) {
                         next();
                     }
                     else {
