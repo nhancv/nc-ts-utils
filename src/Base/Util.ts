@@ -3,11 +3,20 @@ import moment from "moment";
 export default class Util {
   static TIME_ZONE = "+0700";
 
-  /**
-   * Get current time
-   */
   static currentTime() {
     return moment.utc().utcOffset(Util.TIME_ZONE);
+  }
+
+  static currentUTC() {
+    return moment.utc();
+  }
+
+  static currentUTCUnix() {
+    return this.currentUTC().unix();
+  }
+
+  static currentUTCTimestamp() {
+    return this.currentUTC().toDate().getTime();
   }
 
   /**
