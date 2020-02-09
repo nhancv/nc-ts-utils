@@ -56,7 +56,7 @@ export default class Business extends RilModule implements GatewayHook {
 
   }
 
-  async gatewayOutput(message: string): Promise<any> {
+  async gatewayOutput(data: any): Promise<any> {
 
   }
 

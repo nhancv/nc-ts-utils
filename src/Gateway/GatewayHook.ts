@@ -3,6 +3,6 @@ export default interface GatewayHook {
   gatewayRequest(requestData: {id: string, data?: any}): Promise<any>;
 
   // Transmit to public channel
-  gatewayOutput(message: string): Promise<any>;
+  gatewayOutput(data: any): Promise<any>;
 
 }
