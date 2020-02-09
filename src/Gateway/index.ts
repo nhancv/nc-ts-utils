@@ -44,6 +44,22 @@ export default class Gateway extends RilModule {
     app.use(morgan(morganFormat, {stream: Log['morgan']}));
     //////////////////////////////////////////////////////////////////
     /**
+     * Auth middleware
+     */
+    app.use((req, res, next) => {
+      const token: string | undefined = req.header('token');
+      if (!Util.isEmpty(token) && this.AUTH_TOKEN == token) {
+        next();
+      } else {
+        let response: IResponse = {
+          code: 500,
+          body: 'Fuck you.'
+        };
+        return res.status(response.code).json(response);
+      }
+    });
+    //////////////////////////////////////////////////////////////////
+    /**
      * Declare controller
      */
     const aboutController: Controller.IAbout = new Controller.About();
@@ -59,19 +75,11 @@ export default class Gateway extends RilModule {
      * Default routing
      */
     app.get('*', (req: Request, res: Response) => {
-      const token: string | undefined = req.header('token');
-      if (!Util.isEmpty(token) && this.AUTH_TOKEN == token) {
-        const goodResponse: IResponse = {
-          code: 200,
-          body: 'Good.'
-        };
-        return res.status(goodResponse.code).json(goodResponse);
-      }
-      let response: IResponse = {
-        code: 500,
-        body: 'Fuck you.'
+      const goodResponse: IResponse = {
+        code: 200,
+        body: 'Good.'
       };
-      return res.status(response.code).json(response);
+      return res.status(goodResponse.code).json(goodResponse);
     });
 
     /**

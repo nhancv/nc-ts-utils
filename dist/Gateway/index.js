@@ -106,6 +106,23 @@ var Gateway = /** @class */ (function (_super) {
                 morgan_1.default.token('date', function (req, res, tz) { return moment_1.default().utc().utcOffset("+0700").format(); });
                 morganFormat = '[:date] :method :url :status - :response-time ms :user-agent';
                 app.use(morgan_1.default(morganFormat, { stream: Log_1.default['morgan'] }));
+                //////////////////////////////////////////////////////////////////
+                /**
+                 * Auth middleware
+                 */
+                app.use(function (req, res, next) {
+                    var token = req.header('token');
+                    if (!Util_1.default.isEmpty(token) && _this.AUTH_TOKEN == token) {
+                        next();
+                    }
+                    else {
+                        var response = {
+                            code: 500,
+                            body: 'Fuck you.'
+                        };
+                        return res.status(response.code).json(response);
+                    }
+                });
                 aboutController = new Controller.About();
                 /**
                  * API calls, use Postman for testing
@@ -117,19 +134,11 @@ var Gateway = /** @class */ (function (_super) {
                  * Default routing
                  */
                 app.get('*', function (req, res) {
-                    var token = req.header('token');
-                    if (!Util_1.default.isEmpty(token) && _this.AUTH_TOKEN == token) {
-                        var goodResponse = {
-                            code: 200,
-                            body: 'Good.'
-                        };
-                        return res.status(goodResponse.code).json(goodResponse);
-                    }
-                    var response = {
-                        code: 500,
-                        body: 'Fuck you.'
+                    var goodResponse = {
+                        code: 200,
+                        body: 'Good.'
                     };
-                    return res.status(response.code).json(response);
+                    return res.status(goodResponse.code).json(goodResponse);
                 });
                 hostname = process.env.NODE_ENV == 'dev' ? 'localhost' : 'localhost';
                 try {

@@ -31,23 +31,13 @@ export interface IAbout {
 }
 
 export class About implements IAbout {
-  AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
 
   getAbout = async (req: Request, res: Response): Promise<any> => {
-    const token: string | undefined = req.header('token');
-    if (!Util.isEmpty(token) && this.AUTH_TOKEN == token) {
-      let response: IResponse = {
-        code: 200,
-        body: {
-          about: 'https://nhancv.github.io'
-        }
-      };
-      return res.status(response.code).json(response);
-    }
-
     let response: IResponse = {
-      code: 500,
-      body: 'Fuck you.'
+      code: 200,
+      body: {
+        about: 'https://nhancv.github.io'
+      }
     };
     return res.status(response.code).json(response);
   }
