@@ -30,8 +30,9 @@ import {MongoProvider} from "./Provider/MongoDB/MongoProvider";
 import EmailNotifier from "./Provider/EmailNotifier";
 import CronJob from "./Provider/CronJob";
 import BullMQJob from "./Provider/BullMQJob";
+import GatewayHook from "../Gateway/GatewayHook";
 
-export default class Business extends RilModule {
+export default class Business extends RilModule implements GatewayHook {
   async start(): Promise<any> {
     // @nhancv 9/16/19: Connect db
     await MongoProvider.instance.connect();
@@ -55,4 +56,11 @@ export default class Business extends RilModule {
 
   }
 
+  async gatewayOutput(message: string): Promise<any> {
+
+  }
+
+  async gatewayRequest(requestData: any): Promise<any> {
+
+  }
 }

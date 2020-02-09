@@ -29,6 +29,15 @@ import Log from "./Base/Log";
 
 class App extends RilNode {
 
+  bussiness: Business;
+  gateway: Gateway;
+
+  constructor() {
+    super();
+    this.bussiness = new Business();
+    this.gateway = new Gateway(this.bussiness);
+  }
+
   async init(): Promise<any> {
     // Init dotenv
     const result = require('dotenv').config({path: '.env'});
@@ -40,11 +49,11 @@ class App extends RilNode {
   }
 
   async startBusiness(): Promise<any> {
-    await new Business().start();
+    await this.bussiness.start();
   }
 
   async startGateway(): Promise<any> {
-    await new Gateway().start();
+    await this.gateway.start();
   }
 }
 

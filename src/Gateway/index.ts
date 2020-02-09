@@ -15,10 +15,18 @@ import IResponse from "./Controller/IResponse";
 import RilModule from "../Base/RilModule";
 import Util from "../Base/Util";
 import Log from "../Base/Log";
+import GatewayHook from "./GatewayHook";
 
 export default class Gateway extends RilModule {
 
   AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
+
+  gatewayShared: GatewayHook;
+
+  constructor(gatewayShared: GatewayHook) {
+    super();
+    this.gatewayShared = gatewayShared;
+  }
 
   async start(): Promise<any> {
     const app = express();
