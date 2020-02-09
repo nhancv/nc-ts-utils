@@ -21,11 +21,11 @@ export default class Gateway extends RilModule {
 
   AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
 
-  gatewayShared: GatewayHook;
+  gatewayHook: GatewayHook;
 
   constructor(gatewayShared: GatewayHook) {
     super();
-    this.gatewayShared = gatewayShared;
+    this.gatewayHook = gatewayShared;
   }
 
   async start(): Promise<any> {

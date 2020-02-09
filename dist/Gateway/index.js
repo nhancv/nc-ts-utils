@@ -80,7 +80,7 @@ var Gateway = /** @class */ (function (_super) {
     function Gateway(gatewayShared) {
         var _this = _super.call(this) || this;
         _this.AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
-        _this.gatewayShared = gatewayShared;
+        _this.gatewayHook = gatewayShared;
         return _this;
     }
     Gateway.prototype.start = function () {
