@@ -23,9 +23,9 @@ export default class Gateway extends RilModule {
 
   gatewayHook: GatewayHook;
 
-  constructor(gatewayShared: GatewayHook) {
+  constructor(gatewayHook: GatewayHook) {
     super();
-    this.gatewayHook = gatewayShared;
+    this.gatewayHook = gatewayHook;
   }
 
   async start(): Promise<any> {
