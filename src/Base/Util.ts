@@ -61,4 +61,8 @@ export default class Util {
   static isString = (input: any) => {
     return Object.prototype.toString.call(input) === "[object String]"
   };
+
+  static replaceAll = (input: string) => {
+    return input.replace(/ /gm, '');
+  }
 }
