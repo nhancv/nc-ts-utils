@@ -40,13 +40,18 @@ export default class ChatIdCommand implements BotCommand {
   commandCallback = async (ctx) => {
     const fromId = String(ctx.message.from.id);
     if (!this.botBase.isAdmin(fromId)) return;
-    this.botBase.resetCommand(fromId);
+    this.botBase.command[fromId] = this.id;
+
+    // Logic
     let chatId = ctx.message.chat.id;
     this.botBase.sendMessageToAdmin(chatId);
+    this.botBase.resetCommand(fromId);
   };
 
   onBodyText = async (ctx, fromId) => {
 
+
+    this.botBase.resetCommand(fromId);
   };
 
 }
