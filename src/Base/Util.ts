@@ -41,10 +41,22 @@ export default class Util {
     return Util.isNull(input) || input.length === 0;
   };
 
-  // @nhancv 10/13/19: Check boolean type
-  static isBoolean = (input: any) => {
-    return input === false || input === true;
-  };
+  static isTrue(value) {
+    if (typeof (value) === 'string') {
+      value = value.trim().toLowerCase();
+    }
+    switch (value) {
+      case true:
+      case "true":
+      case 1:
+      case "1":
+      case "on":
+      case "yes":
+        return true;
+      default:
+        return false;
+    }
+  }
 
   static isString = (input: any) => {
     return Object.prototype.toString.call(input) === "[object String]"

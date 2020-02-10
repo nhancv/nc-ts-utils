@@ -69,14 +69,16 @@ var ChatIdCommand = /** @class */ (function () {
                 fromId = String(ctx.message.from.id);
                 if (!this.botBase.isAdmin(fromId))
                     return [2 /*return*/];
-                this.botBase.resetCommand(fromId);
+                this.botBase.command[fromId] = this.id;
                 chatId = ctx.message.chat.id;
                 this.botBase.sendMessageToAdmin(chatId);
+                this.botBase.resetCommand(fromId);
                 return [2 /*return*/];
             });
         }); };
         this.onBodyText = function (ctx, fromId) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                this.botBase.resetCommand(fromId);
                 return [2 /*return*/];
             });
         }); };

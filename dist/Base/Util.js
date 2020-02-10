@@ -29,6 +29,22 @@ var Util = /** @class */ (function () {
         var generate = require('nanoid/generate');
         return generate('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 9).toUpperCase();
     };
+    Util.isTrue = function (value) {
+        if (typeof (value) === 'string') {
+            value = value.trim().toLowerCase();
+        }
+        switch (value) {
+            case true:
+            case "true":
+            case 1:
+            case "1":
+            case "on":
+            case "yes":
+                return true;
+            default:
+                return false;
+        }
+    };
     Util.TIME_ZONE = "+0700";
     // @nhancv 10/13/19: Check null and undefined
     Util.isNull = function (input) {
@@ -37,10 +53,6 @@ var Util = /** @class */ (function () {
     // @nhancv 10/13/19: Check string empty
     Util.isEmpty = function (input) {
         return Util.isNull(input) || input.length === 0;
-    };
-    // @nhancv 10/13/19: Check boolean type
-    Util.isBoolean = function (input) {
-        return input === false || input === true;
     };
     Util.isString = function (input) {
         return Object.prototype.toString.call(input) === "[object String]";
