@@ -62,7 +62,7 @@ export default class Util {
     return Object.prototype.toString.call(input) === "[object String]"
   };
 
-  static replaceAll = (input: string) => {
-    return input.replace(/ /gm, '');
+  static replaceAll = (input: string, search = / /gm, replaceValue = '') => {
+    return input.replace(search, replaceValue);
   }
 }
