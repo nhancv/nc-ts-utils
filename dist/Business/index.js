@@ -133,7 +133,7 @@ var Business = /** @class */ (function (_super) {
             });
         });
     };
-    Business.prototype.gatewayOutput = function (message) {
+    Business.prototype.gatewayOutput = function (data) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];

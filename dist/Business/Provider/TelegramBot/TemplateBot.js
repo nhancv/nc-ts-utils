@@ -83,9 +83,6 @@ var TemplateBot = /** @class */ (function (_super) {
     __extends(TemplateBot, _super);
     function TemplateBot() {
         var _this = _super.call(this) || this;
-        _this.botToken = process.env.BOT_TOKEN;
-        _this.botAdminId = process.env.BOT_ADMIN_ID;
-        _this.botAdminChannelId = process.env.BOT_ADMIN_CHANNEL_ID;
         _this.command = {};
         _this.commandData = {};
         _this.sendMessageToAdmin = function (message) {
@@ -107,6 +104,9 @@ var TemplateBot = /** @class */ (function (_super) {
             // @nhancv 9/14/19: Need to parse fromId to String in indexOf case
             return id == _this.botAdminId;
         };
+        _this.botToken = process.env.BOT_TOKEN;
+        _this.botAdminId = process.env.BOT_ADMIN_ID;
+        _this.botAdminChannelId = process.env.BOT_ADMIN_CHANNEL_ID;
         _this.chatIdCommand = new ChatIdCommand_1.default('chat_id', 'Get chatId', _this);
         return _this;
     }
@@ -126,10 +126,11 @@ var TemplateBot = /** @class */ (function (_super) {
                 });
                 this.bot.start(function (ctx) { return ctx.reply("Xin ch\u00E0o " + ctx.message.from.first_name + " " + ctx.message.from.last_name + "\n G\u00F5 /help \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u01B0\u1EDBng d\u1EABn chi ti\u1EBFt nh\u00E9."); });
                 this.bot.help(function (ctx) {
-                    ctx.reply(_this.getCommandHelp(_this.chatIdCommand), { reply_markup: { remove_keyboard: true } });
+                    ctx.reply(_this.getCommandHelp(_this.chatIdCommand) /* TODO: Add command help here */, { reply_markup: { remove_keyboard: true } });
                     _this.resetCommand(String(ctx.message.from.id));
                 });
                 this.bot.command(this.chatIdCommand.id, this.chatIdCommand.commandCallback);
+                /* TODO: Declare command callback */
                 // @nhancv 2019-08-31: reset command
                 this.bot.on('text', function (ctx) { return __awaiter(_this, void 0, void 0, function () {
                     var fromId;
@@ -137,6 +138,7 @@ var TemplateBot = /** @class */ (function (_super) {
                         try {
                             fromId = String(ctx.message.from.id);
                             switch (this.command[fromId]) {
+                                /* TODO: Add command on text */
                                 default:
                                     this.resetCommand(fromId);
                                     break;

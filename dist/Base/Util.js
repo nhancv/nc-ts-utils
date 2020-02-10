@@ -7,11 +7,20 @@ var moment_1 = __importDefault(require("moment"));
 var Util = /** @class */ (function () {
     function Util() {
     }
-    /**
-     * Get current time
-     */
     Util.currentTime = function () {
         return moment_1.default.utc().utcOffset(Util.TIME_ZONE);
+    };
+    Util.currentTimeStr = function () {
+        return moment_1.default.utc().utcOffset(Util.TIME_ZONE).format("YYYY-MM-DD HH:mm");
+    };
+    Util.currentUTC = function () {
+        return moment_1.default.utc();
+    };
+    Util.currentUTCUnix = function () {
+        return this.currentUTC().unix();
+    };
+    Util.currentUTCTimestamp = function () {
+        return this.currentUTC().toDate().getTime();
     };
     /**
      * Generate code

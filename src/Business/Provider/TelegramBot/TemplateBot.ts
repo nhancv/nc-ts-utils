@@ -63,19 +63,21 @@ export default class TemplateBot extends RilModule implements BotBase {
     this.bot.start((ctx) => ctx.reply(`Xin chào ${ctx.message.from.first_name} ${ctx.message.from.last_name}\n Gõ /help để được hướng dẫn chi tiết nhé.`));
     this.bot.help((ctx) => {
       ctx.reply(
-        this.getCommandHelp(this.chatIdCommand),
+        this.getCommandHelp(this.chatIdCommand) /* TODO: Add command help here */,
         {reply_markup: {remove_keyboard: true}}
       );
       this.resetCommand(String(ctx.message.from.id));
     });
 
     this.bot.command(this.chatIdCommand.id, this.chatIdCommand.commandCallback);
+    /* TODO: Declare command callback */
 
     // @nhancv 2019-08-31: reset command
     this.bot.on('text', async (ctx) => {
       try {
         let fromId = String(ctx.message.from.id);
         switch (this.command[fromId]) {
+          /* TODO: Add command on text */
           default:
             this.resetCommand(fromId);
             break;
