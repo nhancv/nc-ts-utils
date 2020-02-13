@@ -53,7 +53,7 @@ export default class Gateway extends RilModule {
      * Auth middleware
      */
     app.use((req, res, next) => {
-      const AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
+      const AUTH_TOKEN = process.env.GATEWAY_AUTHENTICATION_TOKEN_IN ? process.env.GATEWAY_AUTHENTICATION_TOKEN_IN : '';
       const token: string | undefined = req.header('token');
       if (!Util.isEmpty(token) && AUTH_TOKEN == token) {
         next();

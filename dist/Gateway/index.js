@@ -110,7 +110,7 @@ var Gateway = /** @class */ (function (_super) {
                  * Auth middleware
                  */
                 app.use(function (req, res, next) {
-                    var AUTH_TOKEN = process.env.AUTHENTICATION_TOKEN ? process.env.AUTHENTICATION_TOKEN : '';
+                    var AUTH_TOKEN = process.env.GATEWAY_AUTHENTICATION_TOKEN_IN ? process.env.GATEWAY_AUTHENTICATION_TOKEN_IN : '';
                     var token = req.header('token');
                     if (!Util_1.default.isEmpty(token) && AUTH_TOKEN == token) {
                         next();
