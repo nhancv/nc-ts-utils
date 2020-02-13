@@ -59,8 +59,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var About = /** @class */ (function () {
-    function About() {
+var AboutController = /** @class */ (function () {
+    function AboutController() {
         var _this = this;
         this.getAbout = function (req, res) { return __awaiter(_this, void 0, void 0, function () {
             var response;
@@ -75,7 +75,7 @@ var About = /** @class */ (function () {
             });
         }); };
     }
-    return About;
+    return AboutController;
 }());
-exports.About = About;
-//# sourceMappingURL=About.js.map
+exports.AboutController = AboutController;
+//# sourceMappingURL=AboutController.js.map

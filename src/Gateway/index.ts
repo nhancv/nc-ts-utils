@@ -10,12 +10,12 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
-import * as Controller from "./Controller";
 import IResponse from "./Controller/IResponse";
 import RilModule from "../Base/RilModule";
 import Util from "../Base/Util";
 import Log from "../Base/Log";
 import GatewayHook from "./GatewayHook";
+import {AboutController, IAboutController} from "./Controller/AboutController";
 
 export default class Gateway extends RilModule {
 
@@ -69,7 +69,7 @@ export default class Gateway extends RilModule {
     /**
      * Declare controller
      */
-    const aboutController: Controller.IAbout = new Controller.About();
+    const aboutController: IAboutController = new AboutController();
 
     /**
      * API calls, use Postman for testing

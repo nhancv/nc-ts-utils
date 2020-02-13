@@ -51,13 +51,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * Developed by Nhan Cao on 11/22/19, 2:46 PM.
@@ -71,10 +64,10 @@ var body_parser_1 = __importDefault(require("body-parser"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var compression_1 = __importDefault(require("compression"));
 var morgan_1 = __importDefault(require("morgan"));
-var Controller = __importStar(require("./Controller"));
 var RilModule_1 = __importDefault(require("../Base/RilModule"));
 var Util_1 = __importDefault(require("../Base/Util"));
 var Log_1 = __importDefault(require("../Base/Log"));
+var AboutController_1 = require("./Controller/AboutController");
 var Gateway = /** @class */ (function (_super) {
     __extends(Gateway, _super);
     function Gateway(gatewayHook) {
@@ -123,7 +116,7 @@ var Gateway = /** @class */ (function (_super) {
                         return res.status(response.code).json(response);
                     }
                 });
-                aboutController = new Controller.About();
+                aboutController = new AboutController_1.AboutController();
                 /**
                  * API calls, use Postman for testing
                  * This block should declare before default route
