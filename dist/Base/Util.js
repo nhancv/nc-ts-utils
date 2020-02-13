@@ -57,6 +57,11 @@ var Util = /** @class */ (function () {
     Util.isString = function (input) {
         return Object.prototype.toString.call(input) === "[object String]";
     };
+    Util.replaceAll = function (input, search, replaceValue) {
+        if (search === void 0) { search = / /gm; }
+        if (replaceValue === void 0) { replaceValue = ''; }
+        return input.replace(search, replaceValue);
+    };
     return Util;
 }());
 exports.default = Util;

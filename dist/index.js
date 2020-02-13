@@ -83,10 +83,7 @@ var Log_1 = __importDefault(require("./Base/Log"));
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App() {
-        var _this = _super.call(this) || this;
-        _this.business = new Business_1.default();
-        _this.gateway = new Gateway_1.default(_this.business);
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -99,6 +96,8 @@ var App = /** @class */ (function (_super) {
                 process.on('unhandledRejection', function (err) {
                     console.error(err);
                 });
+                this.business = new Business_1.default();
+                this.gateway = new Gateway_1.default(this.business);
                 return [2 /*return*/];
             });
         });

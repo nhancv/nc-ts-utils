@@ -29,14 +29,8 @@ import Log from "./Base/Log";
 
 class App extends RilNode {
 
-  business: Business;
-  gateway: Gateway;
-
-  constructor() {
-    super();
-    this.business = new Business();
-    this.gateway = new Gateway(this.business);
-  }
+  business: Business | any;
+  gateway: Gateway | any;
 
   async init(): Promise<any> {
     // Init dotenv
@@ -46,6 +40,9 @@ class App extends RilNode {
     process.on('unhandledRejection', function (err) {
       console.error(err);
     });
+
+    this.business = new Business();
+    this.gateway = new Gateway(this.business);
   }
 
   async startBusiness(): Promise<any> {
