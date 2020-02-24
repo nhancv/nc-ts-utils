@@ -90,11 +90,38 @@ export default class Gateway extends RilModule {
     });
 
     /**
+     * Setup socket.io
+     */
+    const http = require('http').createServer(app);
+    const io = require('socket.io')(http);
+    io.on('connection', (socket) => {
+      console.log('A user connected');
+      socket.on('message', (data: any) => {
+        console.log('Server received:', data);
+      });
+    });
+
+    /**
+     * Test socket client
+     */
+    const socketClient = require('socket.io-client')(`http://localhost:${port}`);
+    socketClient.on('connect', () => {
+      console.log('Client connected');
+      socketClient.emit('message', 'Hello from client');
+    });
+    socketClient.on('event', (data) => {
+      console.log('Event', data);
+    });
+    socketClient.on('disconnect', () => {
+      console.log('Client disconnect');
+    });
+
+    /**
      * Start listen only on localhost domain
      */
     const hostname = process.env.NODE_ENV == 'dev' ? 'localhost' : 'localhost';
     try {
-      app.listen(port, hostname, () => {
+      http.listen(port, hostname, () => {
         Log.info(`Server ${process.env.NODE_ENV} listening at port ${port}`);
       });
     } catch (e) {
