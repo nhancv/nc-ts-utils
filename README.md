@@ -1,4 +1,6 @@
-# TS Template
+# TS Utility
+
+Fork from nc-ts-template
 
 - Email notifier
 - MongoDB
